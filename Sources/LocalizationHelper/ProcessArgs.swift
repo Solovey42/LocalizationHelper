@@ -4,16 +4,18 @@
 
 import Foundation
 
-public class ProcessArgs{
-    let arg:Array<String> = []
+public class ProcessArgs {
+    var arg: Array<String> = []
     var language = ""
     var key = ""
-    init (Arg:Array<String>){
-        if (Arg.contains("-l")){
-            language = Arg[Arg.firstIndex(of: "-l") ?? +1]
+
+    init(ArgArray: Array<String>) {
+        arg = ArgArray
+        if (ArgArray.contains("-l")) {
+            language = ArgArray[ArgArray.firstIndex(of: "-l")! + 1]
         }
-        if (Arg.contains("-k")){
-            key = Arg[Arg.firstIndex(of: "-k") ?? +1]
+        if (ArgArray.contains("-k")) {
+            key = ArgArray[ArgArray.firstIndex(of: "-k")! + 1]
         }
     }
 }
