@@ -1,3 +1,7 @@
 # LocalizationHelper
 
-A description of this package.
+# Программа локализатор-помощник
+
+###Аргументы: 
++ l - выбор языка
++ k - выбор слова
