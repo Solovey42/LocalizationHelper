@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="LocalizationHelper" type="SwiftPackageManagerRunConfiguration" factoryName="Swift Package Run" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LocalizationHelper" TARGET_NAME="LocalizationHelper" CONFIG_NAME="Swift Package Run" RUN_TARGET_PROJECT_NAME="LocalizationHelper" RUN_TARGET_NAME="LocalizationHelper" WAS_MODIFIED="">
+  <configuration default="false" name="LocalizationHelper" type="SwiftPackageManagerRunConfiguration" factoryName="Swift Package Run" PROGRAM_PARAMS="-k hello -l pt" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LocalizationHelper" TARGET_NAME="LocalizationHelper" CONFIG_NAME="Swift Package Run" RUN_TARGET_PROJECT_NAME="LocalizationHelper" RUN_TARGET_NAME="LocalizationHelper" WAS_MODIFIED="">
     <method v="2">
       <option name="SPM.BUILD_TASK_PROVIDER" enabled="true" />
     </method>
