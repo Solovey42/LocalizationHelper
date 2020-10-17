@@ -17,7 +17,7 @@ func app(Arg: Array<String>, Languages: Array<Language>) {
     } else if process.language != "" && process.key == "" {
         printWithLanguage(process: process, languagesKeys: languagesKeys)
     } else {
-        printWitAllArg(process: process,languagesKeys: languagesKeys)
+        printWitAllArg(process: process, languagesKeys: languagesKeys)
     }
 }
 
@@ -60,7 +60,6 @@ func printWithLanguage(process: ProcessArgs, languagesKeys: Array<String>) {
         print("Not Found")
         exit(0)
     }
-
     for i in 0...languages.count - 1 {
         if languages[i].key == process.language {
             for (key, value) in languages[i].Words {
@@ -91,7 +90,7 @@ func printWithKey(process: ProcessArgs) {
     }
 }
 
-func printWitAllArg(process: ProcessArgs,languagesKeys: Array<String>) {
+func printWitAllArg(process: ProcessArgs, languagesKeys: Array<String>) {
     guard languagesKeys.contains(process.language) else {
         print("Not Found")
         exit(0)
