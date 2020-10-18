@@ -5,7 +5,6 @@
 import Foundation
 
 func app(Arg: Array<String>, Languages: Array<Language>) {
-    let languages = Languages
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
     let process = ProcessArgs.init(ArgArray: Arg)
