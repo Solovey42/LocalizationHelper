@@ -11,18 +11,12 @@ public class ProcessArgs {
 
     init(ArgArray: Array<String>) {
         arg = ArgArray
-        if (ArgArray.contains("-l")) {
-            if let index = ArgArray.firstIndex(of: "-l") {
-                language = ArgArray[index + 1]
-            }
-
-        } else {
-            language = ""
+        if let index = ArgArray.firstIndex(of: "-l") {
+            language = ArgArray[index + 1]
         }
-        if (ArgArray.contains("-k")) {
-            if let index = ArgArray.firstIndex(of: "-k") {
-                key = ArgArray[index + 1]
-            }
+        if let index = ArgArray.firstIndex(of: "-k") {
+            key = ArgArray[index + 1]
         }
     }
 }
+
