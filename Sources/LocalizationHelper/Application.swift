@@ -68,16 +68,12 @@ func printWithLanguage(process: ProcessArgs, languagesKeys: Array<String>, langu
     }
 }
 
-func printWithKey(process: ProcessArgs) {
-    for i in 0...languages.count - 1 {
-        if languages[i].Words.keys.contains(process.key) {
-            print(process.key)
-            break
-        } else {
-            print("Not Found")
-            break
-        }
+func printWithKey(process: ProcessArgs, keys: Array<String>, languages: Array<Language>) {
+    guard keys.contains(process.key) else {
+        print("Not Found")
+        exit(0)
     }
+    print(process.key)
     for i in 0...languages.count - 1 {
         if languages[i].Words.keys.contains(process.key) {
             for (key, value) in languages[i].Words
