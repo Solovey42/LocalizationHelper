@@ -4,20 +4,20 @@
 
 import Foundation
 
-func app(Arg: Array<String>, Languages: Array<Language>) {
+func app(process: ProcessArgs, languages: Array<Language>) {
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
-    let process = ProcessArgs.init(ArgArray: Arg)
 
     if process.language == "" && process.key == "" {
-        printWithOutArg(keys: keys)
+        printWithOutArg(keys: keys, languages: languages)
     } else if process.language == "" && process.key != "" {
-        printWithKey(process: process)
+        printWithKey(process: process, keys: keys, languages: languages)
     } else if process.language != "" && process.key == "" {
-        printWithLanguage(process: process, languagesKeys: languagesKeys)
+        printWithLanguage(process: process, languagesKeys: languagesKeys, languages: languages)
     } else {
-        printWitAllArg(process: process, languagesKeys: languagesKeys)
+        printWitAllArg(process: process, languagesKeys: languagesKeys, languages: languages)
     }
+
 }
 
 func getKeys(languages: Array<Language>) -> Array<String> {
@@ -42,7 +42,7 @@ func getLanguagesKeys(languages: Array<Language>) -> Array<String> {
     return languagesKeys
 }
 
-func printWithOutArg(keys: Array<String>) {
+func printWithOutArg(keys: Array<String>, languages: Array<Language>) {
     for item in keys {
         print(item)
         for n in 0...languages.count - 1 {
@@ -54,7 +54,7 @@ func printWithOutArg(keys: Array<String>) {
     }
 }
 
-func printWithLanguage(process: ProcessArgs, languagesKeys: Array<String>) {
+func printWithLanguage(process: ProcessArgs, languagesKeys: Array<String>, languages: Array<Language>) {
     guard languagesKeys.contains(process.language) else {
         print("Not Found")
         exit(0)
@@ -89,7 +89,7 @@ func printWithKey(process: ProcessArgs) {
     }
 }
 
-func printWitAllArg(process: ProcessArgs, languagesKeys: Array<String>) {
+func printWitAllArg(process: ProcessArgs, languagesKeys: Array<String>, languages: Array<Language>) {
     guard languagesKeys.contains(process.language) else {
         print("Not Found")
         exit(0)
@@ -104,5 +104,7 @@ func printWitAllArg(process: ProcessArgs, languagesKeys: Array<String>) {
     }
     print("Not found")
 }
+
+
 
 
