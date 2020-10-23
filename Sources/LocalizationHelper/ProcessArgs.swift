@@ -18,5 +18,11 @@ public class ProcessArgs {
             key = ArgArray[index + 1]
         }
     }
+
+    init(stringKey: String, stringLanguage: String) {
+        language = stringLanguage
+        key = stringKey
+    }
 }
+
 
