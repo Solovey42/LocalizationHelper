@@ -1,0 +1,24 @@
+[
+  {
+    "key": "rus",
+    "words": {
+      "hello": "Привет",
+      "day": "День"
+    }
+  },
+  {
+    "key": "eng",
+    "words": {
+      "hello": "Hello",
+      "day": "Day",
+      "terms": "Terms"
+    }
+  },
+  {
+    "key": "pt",
+    "words": {
+      "day": "Dia",
+      "terms": "Termos"
+    }
+  }
+]
