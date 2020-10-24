@@ -1,6 +1,5 @@
 import Foundation
 import ArgumentParser
-
 struct Arguments: ParsableCommand {
 
     @Option(name: .short, help: "The word to translate into.") var key: String = ""
