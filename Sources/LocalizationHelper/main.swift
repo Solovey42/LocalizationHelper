@@ -1,6 +1,6 @@
 import ArgumentParser
 
-struct CharacterCount: ParsableCommand {
+struct Arguments: ParsableCommand {
 
     @Option(name: .short, help: "The word to translate into.") var key: String = ""
     @Option(name: .short, help: "Language into which we translate") var language: String = ""
@@ -13,5 +13,5 @@ struct CharacterCount: ParsableCommand {
     }
 }
 
-CharacterCount.main()
+Arguments.main()
 
