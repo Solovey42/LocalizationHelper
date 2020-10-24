@@ -6,5 +6,5 @@ import Foundation
 
 public protocol Language {
     var key: String { get }
-    var Words: [String: String] { get }
+    var words: [String: String] { get }
 }
