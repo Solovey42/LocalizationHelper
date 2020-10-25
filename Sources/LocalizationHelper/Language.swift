@@ -4,11 +4,11 @@
 
 import Foundation
 
-public protocol Language {
+public protocol LanguageProtocol {
     var key: String { get }
     var words: [String: String] { get }
 }
-public struct LanguagE:Language,Codable {
+public struct Language:Language,Codable {
     public var key: String
     public var words: [String: String]
 }
