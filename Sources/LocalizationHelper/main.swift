@@ -6,9 +6,11 @@ struct Arguments: ParsableCommand {
     @Option(name: .short, help: "Language into which we translate") var language: String = ""
 
     func run() throws {
-        let path = Bundle.main.path( forResource: "languages", ofType: "json") ?? "languages.json"
+        let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
         var languages = [] as [Language]
         let decoder = JSONDecoder()
+
+        print(path)
 
         if let json = FileManager.default.contents(atPath: path) {
             let curLanguage = (try? decoder.decode(Language.self, from: json))!
