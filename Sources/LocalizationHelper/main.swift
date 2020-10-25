@@ -3,8 +3,8 @@ import ArgumentParser
 
 struct Arguments: ParsableCommand {
 
-    @Option(name: .short, help: "The word to translate into.") var key: String = ""
-    @Option(name: .short, help: "Language into which we translate") var language: String = ""
+    @Option(name: .shortAndLong, help: "The word to translate into.") var key: String = ""
+    @Option(name: .shortAndLong, help: "Language into which we translate") var language: String = ""
 
     func run() throws {
         let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
