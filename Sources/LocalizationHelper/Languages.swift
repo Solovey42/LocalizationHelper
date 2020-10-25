@@ -4,17 +4,17 @@
 
 import Foundation
 
-struct Russian: Language {
+struct Russian: LanguageProtocol {
     let key = "rus"
     var words: [String: String] = ["hello": "Привет", "day": "День"]
 }
 
-struct English: Language {
+struct English: LanguageProtocol {
     let key = "en"
     var words: [String: String] = ["hello": "Hello", "day": "Day", "terms": "Terms"]
 }
 
-struct Portuguese: Language {
+struct Portuguese: LanguageProtocol {
     let key = "pt"
     var words: [String: String] = ["day": "Dia", "terms": "Termos"]
 }
