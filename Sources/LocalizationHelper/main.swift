@@ -10,8 +10,6 @@ struct Arguments: ParsableCommand {
         var languages = [] as [Language]
         let decoder = JSONDecoder()
 
-        print(path)
-
         if let json = FileManager.default.contents(atPath: path) {
             let curLanguage = (try? decoder.decode(Language.self, from: json))!
             languages.append(curLanguage)
