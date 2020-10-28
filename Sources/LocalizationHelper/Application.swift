@@ -4,7 +4,13 @@
 
 import Foundation
 
-func app(process: ProcessArgs, languages: Array<Language>) {
+func app(process: ProcessArgs) throws {
+    let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+    var languages = [] as [Language]
+    if let json = FileManager.default.contents(atPath: path) {
+        try languages = JSONDecoder().decode([Language].self, from: json)
+    }
+
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
 
