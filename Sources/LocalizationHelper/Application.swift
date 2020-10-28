@@ -6,10 +6,17 @@ import Foundation
 
 func app(process: ProcessArgs) throws {
     let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+    //let path = Bundle.module.url(forResource: "languages", withExtension: "json")
     var languages = [] as [Language]
+
     if let json = FileManager.default.contents(atPath: path) {
         try languages = JSONDecoder().decode([Language].self, from: json)
     }
+
+    languages.removeFirst()
+
+    let json = try JSONEncoder().encode(languages.self)
+    try json.write(to: URL(fileURLWithPath: path))
 
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
