@@ -19,6 +19,9 @@ func search(languages: inout [Language],process: ProcessArgs,path: String) throw
         printWitAllArg(process: process, languagesKeys: languagesKeys, languages: languages)
     }
 
+    let json = try JSONEncoder().encode(languages.self)
+    try json.write(to: URL(fileURLWithPath: path))
+
 }
 
 func getKeys(languages: Array<Language>) -> Array<String> {
