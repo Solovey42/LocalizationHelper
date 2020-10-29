@@ -18,9 +18,10 @@ extension Arguments{
                 commandName: "search",
                 abstract: "Start search")
         func run() throws {
-            //let process = ProcessArgs.init(ArgArray: CommandLine.arguments) //using for read Commandline
-            let process = ProcessArgs.init(stringKey: options.key, stringLanguage: options.language)
-            try app(process: process)
+            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+            var lang = try getJson(path: path)
+            let process = ProcessArgs.init(stringConfig: "search", stringKey: options.key, stringLanguage: options.language)
+            try search(languages: &lang, process: process, path: path)
         }
 
     }
@@ -32,7 +33,11 @@ extension Arguments{
                 commandName: "update",
                 abstract: "Update selected item.")
         func run() throws {
-            print("Update")
+            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+            var lang = try getJson(path: path)
+            let process = ProcessArgs.init(stringConfig: "update", stringWord: word,stringKey: options.key, stringLanguage: options.language)
+            try update(languages: &lang, process: process, path: path)
+            }
         }
     }
 
@@ -42,7 +47,10 @@ extension Arguments{
                 commandName: "delete",
                 abstract: "Delete selected item.")
         func run() throws {
-            print("Delete")
+            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+            var lang = try getJson(path: path)
+            let process = ProcessArgs.init(stringConfig: "delete",stringKey: options.key, stringLanguage: options.language)
+            try delete(languages: &lang, process: process, path: path)
         }
     }
 
