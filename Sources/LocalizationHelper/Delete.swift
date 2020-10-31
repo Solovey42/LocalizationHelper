@@ -19,7 +19,7 @@ func delete(languages: inout [Language], process: ProcessArgs, path: String) thr
     try json.write(to: URL(fileURLWithPath: path))
 }
 
-func deleteWithKey(process: ProcessArgs, keys: Array<String>, languages: inout Array<Language>) {
+func deleteWithKey(process: ProcessArgs, keys: [String], languages: inout [Language]) {
     guard keys.contains(process.key) else {
         print("Not Found")
         exit(0)
@@ -36,7 +36,7 @@ func deleteWithKey(process: ProcessArgs, keys: Array<String>, languages: inout A
     }
 }
 
-func deleteWithLanguage(process: ProcessArgs, languagesKeys: Array<String>, languages: inout Array<Language>) {
+func deleteWithLanguage(process: ProcessArgs, languagesKeys: [String], languages: inout [Language]) {
     guard languagesKeys.contains(process.language) else {
         print("Not Found")
         exit(0)
@@ -50,7 +50,7 @@ func deleteWithLanguage(process: ProcessArgs, languagesKeys: Array<String>, lang
     }
 }
 
-func deleteWithAllArg(process: ProcessArgs, languagesKeys: Array<String>, languages: inout Array<Language>) {
+func deleteWithAllArg(process: ProcessArgs, languagesKeys: [String], languages: inout [Language]) {
     guard languagesKeys.contains(process.language) else {
         print("Not Found")
         exit(0)
