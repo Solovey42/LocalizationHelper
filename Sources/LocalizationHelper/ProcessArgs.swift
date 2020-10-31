@@ -21,7 +21,7 @@ public class ProcessArgs {
         }
     }
 
-    init(stringConfig: String?, stringWord: String? = "", stringKey: String, stringLanguage: String) {
+    init(stringConfig: String, stringWord: String? = "", stringKey: String, stringLanguage: String) {
         config = stringConfig
         word = stringWord
         language = stringLanguage
