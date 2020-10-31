@@ -29,7 +29,7 @@ func deleteWithKey(process: ProcessArgs, keys: [String], languages: inout [Langu
             for (key, _) in languages[i].words
                 where key == process.key {
                 languages[i].words.removeValue(forKey: key)
-                print("Word \(key) was deleted")
+                print("Word \(key) was deleted from language \(languages[i].key)")
                 break
             }
         }
@@ -43,8 +43,8 @@ func deleteWithLanguage(process: ProcessArgs, languagesKeys: [String], languages
     }
     for i in 0...languages.count - 1 {
         if languages[i].key == process.language {
-            languages.remove(at: i)
             print("Language \(languages[i].key) was deleted")
+            languages.remove(at: i)
             break
         }
     }
@@ -59,7 +59,7 @@ func deleteWithAllArg(process: ProcessArgs, languagesKeys: [String], languages: 
         for (key, value) in languages[i].words
             where key == process.key && languages[i].key == process.language {
             languages[i].words.removeValue(forKey: key)
-            print("Word \(value) was deleted from languages \(languages[i].key)")
+            print("Word \(value) was deleted from language \(languages[i].key)")
             break
         }
     }
