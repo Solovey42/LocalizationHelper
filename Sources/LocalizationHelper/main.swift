@@ -31,7 +31,7 @@ extension Arguments{
         @OptionGroup
         var options: Arguments.Options
         @Argument
-        var word: String?
+        var word: String
         static var configuration = CommandConfiguration(
                 commandName: "update",
                 abstract: "Update selected item.")

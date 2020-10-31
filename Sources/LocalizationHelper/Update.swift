@@ -13,7 +13,7 @@ func update(languages: inout [Language], process: ProcessArgs, path: String) thr
     for i in 0...languages.count - 1 {
         for (key, value) in languages[i].words
             where key == process.key && languages[i].key == process.language {
-            languages[i].words.updateValue(process.word!, forKey: key)
+            languages[i].words.updateValue(process.word, forKey: key)
             let json = try JSONEncoder().encode(languages.self)
             try json.write(to: URL(fileURLWithPath: path))
             print("Word \(value) was updated")
