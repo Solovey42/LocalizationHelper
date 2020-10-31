@@ -13,7 +13,8 @@ extension Arguments{
     }
 
     struct Search: ParsableCommand{
-        @OptionGroup var options: Arguments.Options
+        @OptionGroup
+        var options: Arguments.Options
         static var configuration = CommandConfiguration(
                 commandName: "search",
                 abstract: "Start search")
@@ -27,8 +28,10 @@ extension Arguments{
     }
 
     struct Update: ParsableCommand{
-        @OptionGroup var options: Arguments.Options
-        @Argument var word: String?
+        @OptionGroup
+        var options: Arguments.Options
+        @Argument
+        var word: String?
         static var configuration = CommandConfiguration(
                 commandName: "update",
                 abstract: "Update selected item.")
@@ -42,7 +45,8 @@ extension Arguments{
     }
 
     struct Delete: ParsableCommand {
-        @OptionGroup var options: Arguments.Options
+        @OptionGroup
+        var options: Arguments.Options
         static var configuration = CommandConfiguration(
                 commandName: "delete",
                 abstract: "Delete selected item.")
