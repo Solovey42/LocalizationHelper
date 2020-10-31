@@ -20,7 +20,7 @@ extension Arguments{
         func run() throws {
             let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
             var lang = try getJson(path: path)
-            let process = ProcessArgs.init(stringConfig: "search", stringKey: options.key, stringLanguage: options.language)
+            let process = ProcessArgs(stringConfig: "search", stringKey: options.key, stringLanguage: options.language)
             try search(languages: &lang, process: process, path: path)
         }
 
@@ -35,7 +35,7 @@ extension Arguments{
         func run() throws {
             let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
             var lang = try getJson(path: path)
-            let process = ProcessArgs.init(stringConfig: "update", stringWord: word,stringKey: options.key, stringLanguage: options.language)
+            let process = ProcessArgs(stringConfig: "update", stringWord: word,stringKey: options.key, stringLanguage: options.language)
             try update(languages: &lang, process: process, path: path)
             }
         }
@@ -49,7 +49,7 @@ extension Arguments{
         func run() throws {
             let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
             var lang = try getJson(path: path)
-            let process = ProcessArgs.init(stringConfig: "delete",stringKey: options.key, stringLanguage: options.language)
+            let process = ProcessArgs(stringConfig: "delete",stringKey: options.key, stringLanguage: options.language)
             try delete(languages: &lang, process: process, path: path)
         }
     }
