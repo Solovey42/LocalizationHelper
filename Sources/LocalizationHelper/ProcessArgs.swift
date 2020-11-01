@@ -5,11 +5,13 @@
 import Foundation
 
 public class ProcessArgs {
-    var arg: Array<String> = []
+    var arg: [String] = []
+    var config: String = ""
+    var word: String = ""
     var language = ""
     var key = ""
 
-    init(ArgArray: Array<String>) {
+    init(ArgArray: [String]) {
         arg = ArgArray
         if let index = ArgArray.firstIndex(of: "-l") {
             language = ArgArray[index + 1]
@@ -19,7 +21,9 @@ public class ProcessArgs {
         }
     }
 
-    init(stringKey: String, stringLanguage: String) {
+    init(stringConfig: String, stringWord: String = "", stringKey: String, stringLanguage: String) {
+        config = stringConfig
+        word = stringWord
         language = stringLanguage
         key = stringKey
     }
