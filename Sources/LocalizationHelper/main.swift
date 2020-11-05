@@ -18,8 +18,8 @@ let getterData = container.getData
 var data = try getterData.gettingData()
 
 if case .search(let key?, let language?) = arguments {
-    let process = ProcessArgs(stringConfig: "search", stringKey: key, stringLanguage: language)
-    try search(languages: &data, process: process) // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
+
+    try search(languages: &data, key: key, language: language) // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
 }
 
 /*switch arguments{

@@ -1,18 +1,18 @@
 import Foundation
 
-func search(languages: inout [Language],process: ProcessArgs) throws {
+func search(languages: inout [Language], key: String, language: String) throws {
 
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
 
-    if process.language == "" && process.key == "" {
+    if language == "" && key == "" {
         printWithOutArg(keys: keys, languages: languages)
-    } else if process.language == "" && process.key != "" {
-        printWithKey(process: process, keys: keys, languages: languages)
-    } else if process.language != "" && process.key == "" {
-        printWithLanguage(process: process, languagesKeys: languagesKeys, languages: languages)
+    } else if language == "" && key != "" {
+        printWithKey(key: key, language: language, keys: keys, languages: languages)
+    } else if language != "" && key == "" {
+        printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
     } else {
-        printWitAllArg(process: process, languagesKeys: languagesKeys, languages: languages)
+        printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
     }
 }
 
@@ -50,13 +50,13 @@ func printWithOutArg(keys: [String], languages: [Language]) {
     }
 }
 
-func printWithLanguage(process: ProcessArgs, languagesKeys: [String], languages: [Language]) {
-    guard languagesKeys.contains(process.language) else {
+func printWithLanguage(key: String, language: String, languagesKeys: [String], languages: [Language]) {
+    guard languagesKeys.contains(language) else {
         print("Not Found")
         exit(0)
     }
     for i in 0...languages.count - 1 {
-        if languages[i].key == process.language {
+        if languages[i].key == language {
             for (key, value) in languages[i].words {
                 print("\(key) = \(value)")
             }
@@ -64,16 +64,16 @@ func printWithLanguage(process: ProcessArgs, languagesKeys: [String], languages:
     }
 }
 
-func printWithKey(process: ProcessArgs, keys: [String], languages: [Language]) {
-    guard keys.contains(process.key) else {
+func printWithKey(key: String, language: String, keys: [String], languages: [Language]) {
+    guard keys.contains(key) else {
         print("Not Found")
         exit(0)
     }
-    print(process.key)
+    print(key)
     for i in 0...languages.count - 1 {
-        if languages[i].words.keys.contains(process.key) {
+        if languages[i].words.keys.contains(key) {
             for (key, value) in languages[i].words
-                where key == process.key {
+                where key == key {
                 print("\t\(languages[i].key): \(value)")
                 break
             }
@@ -81,15 +81,15 @@ func printWithKey(process: ProcessArgs, keys: [String], languages: [Language]) {
     }
 }
 
-func printWitAllArg(process: ProcessArgs, languagesKeys: [String], languages: [Language]) {
-    guard languagesKeys.contains(process.language) else {
+func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: [Language]) {
+    guard languagesKeys.contains(language) else {
         print("Not Found")
         exit(0)
     }
 
     for i in 0...languages.count - 1 {
         for (key, value) in languages[i].words
-            where key == process.key && languages[i].key == process.language {
+            where key == key && languages[i].key == language {
             print("\(value)")
             exit(0)
         }
