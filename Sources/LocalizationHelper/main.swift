@@ -1,16 +1,10 @@
 import Foundation
-import ArgumentParser
 
-struct Arguments: ParsableCommand {
-    static var configuration = CommandConfiguration(
-            abstract: "A program for translate words.",
-            subcommands: [Search.self, Update.self, Delete.self])
-}
-extension Arguments{
-    struct Options: ParsableArguments {
-        @Option(name: .shortAndLong, help: "The word to translate into.") var key: String = ""
-        @Option(name: .shortAndLong, help: "Language into which we translate") var language: String = ""
+class Container {
+    var argumentParser: ArgumentsParserProtocol {
+        ArgumentParser()
     }
+}
 
     struct Search: ParsableCommand{
         @OptionGroup
