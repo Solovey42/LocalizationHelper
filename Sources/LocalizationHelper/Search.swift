@@ -1,7 +1,3 @@
-//
-// Created by solo on 10/16/20.
-//
-
 import Foundation
 
 func search(languages: inout [Language],process: ProcessArgs,path: String) throws {

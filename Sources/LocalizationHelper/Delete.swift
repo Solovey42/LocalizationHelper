@@ -1,7 +1,3 @@
-//
-// Created by solo on 29.10.2020.
-//
-
 import Foundation
 
 func delete(languages: inout [Language], process: ProcessArgs, path: String) throws {

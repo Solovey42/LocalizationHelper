@@ -1,7 +1,3 @@
-//
-// Created by solo on 05.11.2020.
-//
-
 import Foundation
 
 protocol ArgumentsParserProtocol {
