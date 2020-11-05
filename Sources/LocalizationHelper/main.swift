@@ -4,14 +4,18 @@ class Container {
     var argumentParser: ArgumentsParserProtocol {
         ArgumentParser()
     }
+    var getData: GetDataProtocol {
+        JsonGetter()
+    }
 }
 
 let container = Container()
+
 let parser = container.argumentParser
 let arguments = container.argumentParser.parsing()
 
-let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-var lang = try getJson(path: path)
+let getterData = container.getData
+var data = try getterData.gettingData()
 
 switch arguments{
 case .search(let key?, let language?):
