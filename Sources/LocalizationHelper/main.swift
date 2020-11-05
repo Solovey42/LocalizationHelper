@@ -6,51 +6,26 @@ class Container {
     }
 }
 
-    struct Search: ParsableCommand{
-        @OptionGroup
-        var options: Arguments.Options
-        static var configuration = CommandConfiguration(
-                commandName: "search",
-                abstract: "Start search")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "search", stringKey: options.key, stringLanguage: options.language)
-            try search(languages: &lang, process: process, path: path)
-        }
+let container = Container()
+let parser = container.argumentParser
+let arguments = container.argumentParser.parsing()
 
-    }
+let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+var lang = try getJson(path: path)
 
-    struct Update: ParsableCommand{
-        @OptionGroup
-        var options: Arguments.Options
-        @Argument
-        var word: String
-        static var configuration = CommandConfiguration(
-                commandName: "update",
-                abstract: "Update selected item.")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "update", stringWord: word,stringKey: options.key, stringLanguage: options.language)
-            try update(languages: &lang, process: process, path: path)
-            }
-        }
-    }
-
-    struct Delete: ParsableCommand {
-        @OptionGroup
-        var options: Arguments.Options
-        static var configuration = CommandConfiguration(
-                commandName: "delete",
-                abstract: "Delete selected item.")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "delete",stringKey: options.key, stringLanguage: options.language)
-            try delete(languages: &lang, process: process, path: path)
-        }
-    }
+switch arguments{
+case .search(let key?, let language?):
+    let process = ProcessArgs(stringConfig: "search", stringKey: key, stringLanguage: language)
+    try search(languages: &lang, process: process, path: path)
+case .update(let word, let key, let language):
+    let process = ProcessArgs(stringConfig: "update", stringWord: word,stringKey: key, stringLanguage: language)
+    try update(languages: &lang, process: process, path: path)
+case .delete(let key?, let language?):
+    let process = ProcessArgs(stringConfig: "delete",stringKey: key, stringLanguage: language)
+    try delete(languages: &lang, process: process, path: path)
+default:
+    exit(0)
+}
 
 func getJson(path: String) throws -> [Language] {
     var languages = [] as [Language]
@@ -60,4 +35,6 @@ func getJson(path: String) throws -> [Language] {
     return languages
 }
 
-Arguments.main()
+
+
+
