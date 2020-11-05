@@ -1,6 +1,6 @@
 import Foundation
 
-func search(languages: inout [Language],process: ProcessArgs,path: String) throws {
+func search(languages: inout [Language],process: ProcessArgs) throws {
 
     let keys = getKeys(languages: languages)
     let languagesKeys = getLanguagesKeys(languages: languages)
@@ -14,10 +14,6 @@ func search(languages: inout [Language],process: ProcessArgs,path: String) throw
     } else {
         printWitAllArg(process: process, languagesKeys: languagesKeys, languages: languages)
     }
-
-    let json = try JSONEncoder().encode(languages.self)
-    try json.write(to: URL(fileURLWithPath: path))
-
 }
 
 func getKeys(languages: [Language]) -> [String] {
