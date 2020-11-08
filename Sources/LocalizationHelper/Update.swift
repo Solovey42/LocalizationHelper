@@ -1,17 +1,16 @@
 import Foundation
 
-func update(languages: inout [Language], process: ProcessArgs, path: String) throws {
+func update(languages: inout [Language], word: String, key: String, language: String, updatingDataClass: SetDataProtocol ) throws {
     let languagesKeys = getLanguagesKeys(languages: languages)
-    guard languagesKeys.contains(process.language) else {
+    guard languagesKeys.contains(language) else {
         print("Not Found")
         exit(0)
     }
     for i in 0...languages.count - 1 {
         for (key, value) in languages[i].words
-            where key == process.key && languages[i].key == process.language {
-            languages[i].words.updateValue(process.word, forKey: key)
-            let json = try JSONEncoder().encode(languages.self)
-            try json.write(to: URL(fileURLWithPath: path))
+            where key == key && languages[i].key == language {
+            languages[i].words.updateValue(word, forKey: key)
+            try updatingDataClass.settingData(languages: &languages)
             print("Word \(value) was updated")
             exit(0)
         }
