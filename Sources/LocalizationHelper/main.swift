@@ -7,6 +7,9 @@ class Container {
     var getData: GetDataProtocol {
         JsonGetter()
     }
+    var setData: SetDataProtocol{
+        JsonSetter()
+    }
 }
 
 let container = Container()
@@ -17,24 +20,18 @@ let arguments = container.argumentParser.parsing()
 let getterData = container.getData
 var data = try getterData.gettingData()
 
-if case .search(let key?, let language?) = arguments {
+let setterData = container.setData
 
-    try search(languages: &data, key: key, language: language) // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
+if case .search(let key, let language) = arguments {
+    try search(languages: &data, key: key ?? "", language: language ?? "") // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
 }
-
-/*switch arguments{
-case .search(let key?, let language?):
-    let process = ProcessArgs(stringConfig: "search", stringKey: key, stringLanguage: language)
-    try search(languages: &data, process: process) // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
-case .update(let word, let key, let language):
-    let process = ProcessArgs(stringConfig: "update", stringWord: word,stringKey: key, stringLanguage: language)
-    try update(languages: &data, process: process, path: path)
-case .delete(let key?, let language?):
-    let process = ProcessArgs(stringConfig: "delete",stringKey: key, stringLanguage: language)
-    try delete(languages: &data, process: process, path: path)
-default:
-    exit(0)
-}*/
+if case .update(let word, let key, let language) = arguments {
+    try update(languages: &data,word: word, key: key ?? "", language: language ?? "", updatingDataClass: setterData )
+}
+if case .delete(let key?, let language?) = arguments {
+    //let process = ProcessArgs(stringConfig: "delete", stringKey: key, stringLanguage: language)
+    //try delete(languages: &data, process: process, path: path)
+}
 
 
 
