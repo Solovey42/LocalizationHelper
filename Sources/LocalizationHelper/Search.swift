@@ -72,8 +72,8 @@ class SearchData {
         print(key)
         for i in 0...languages.count - 1 {
             if languages[i].words.keys.contains(key) {
-                for (key, value) in languages[i].words
-                    where key == key {
+                for (wordKey, value) in languages[i].words
+                    where wordKey == key {
                     print("\t\(languages[i].key): \(value)")
                     break
                 }
@@ -88,8 +88,8 @@ class SearchData {
         }
 
         for i in 0...languages.count - 1 {
-            for (key, value) in languages[i].words
-                where key == key && languages[i].key == language {
+            for (wordKey, value) in languages[i].words
+                where wordKey == key && languages[i].key == language {
                 print("\(value)")
                 exit(0)
             }

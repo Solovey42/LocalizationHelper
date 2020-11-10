@@ -21,8 +21,8 @@ class DeleteData {
         }
         for i in 0...languages.count - 1 {
             if languages[i].words.keys.contains(key) {
-                for (key, _) in languages[i].words
-                    where key == key {
+                for (wordKey, _) in languages[i].words
+                    where wordKey == key {
                     languages[i].words.removeValue(forKey: key)
                     print("Word \(key) was deleted from language \(languages[i].key)")
                     break
@@ -51,8 +51,8 @@ class DeleteData {
             exit(0)
         }
         for i in 0...languages.count - 1 {
-            for (key, value) in languages[i].words
-                where key == key && languages[i].key == language {
+            for (wordKey, value) in languages[i].words
+                where wordKey == key && languages[i].key == language {
                 languages[i].words.removeValue(forKey: key)
                 print("Word \(value) was deleted from language \(languages[i].key)")
                 break
