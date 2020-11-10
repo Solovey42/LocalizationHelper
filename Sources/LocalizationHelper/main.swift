@@ -10,6 +10,15 @@ class Container {
     var setData: SetDataProtocol{
         JsonSetter()
     }
+    var search: SearchingProtocol{
+        SearchData()
+    }
+    var update: UpdatingProtocol{
+        UpdateData()
+    }
+    var delete: DeletingProtocol{
+        DeleteData()
+    }
 }
 
 let container = Container()
@@ -21,18 +30,15 @@ let getterData = container.getData
 var data = try getterData.gettingData()
 
 if case .search(let key, let language) = arguments {
-    let searchingClass = SearchData()
-    try searchingClass.search(languages: &data, key: key ?? "", language: language ?? "") // не передавать весь класс , а передать отдельные аргументы и создать из функций классы с интерфейсами
+    try container.search.run(languages: &data, key: key ?? "", language: language ?? "")
 }
 if case .update(let word, let key, let language) = arguments {
     let setterData = container.setData
-    let updatingClass = UpdateData()
-    try updatingClass.update(languages: &data,word: word, key: key, language: language, updatingDataClass: setterData )
+    try container.update.run(languages: &data,word: word, key: key, language: language, updatingDataClass: setterData )
 }
 if case .delete(let key, let language) = arguments {
     let setterData = container.setData
-    let deletingClass = DeleteData()
-    try deletingClass.delete(languages: &data, key: key ?? "", language: language ?? "", updatingDataClass: setterData)
+    try container.delete.run(languages: &data, key: key ?? "", language: language ?? "", updatingDataClass: setterData)
 }
 
 
