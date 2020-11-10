@@ -15,29 +15,6 @@ class SearchData: SearchingProtocol {
             printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
         }
     }
-
-    func getKeys(languages: [Language]) -> [String] {
-        var keys: [String] = []
-        for i in 0...languages.count - 1 {
-            for (key, _) in languages[i].words {
-                if keys.contains(key) == false {
-                    keys.append(key)
-                }
-            }
-        }
-        return keys
-    }
-
-    func getLanguagesKeys(languages: [Language]) -> [String] {
-        var languagesKeys: [String] = []
-        for i in 0...languages.count - 1 {
-            if languagesKeys.contains(languages[i].key) == false {
-                languagesKeys.append(languages[i].key)
-            }
-        }
-        return languagesKeys
-    }
-
     func printWithOutArg(keys: [String], languages: [Language]) {
         for item in keys {
             print(item)
