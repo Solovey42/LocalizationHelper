@@ -1,9 +1,9 @@
 import Foundation
 
 class DeleteData: DeletingProtocol {
-    func run(languages: inout [Language], key: String, language: String, updatingDataClass: SetDataProtocol) throws {
-        let keys = getKeys(languages: languages)
-        let languagesKeys = getLanguagesKeys(languages: languages)
+    func run(languages: inout [Language], key: String, language: String, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol) throws {
+        let keys = getterStrings.getKeys(languages: languages)
+        let languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
         if language == "" && key != "" {
             deleteWithKey(key: key, language: language, keys: keys, languages: &languages)
         } else if language != "" && key == "" {

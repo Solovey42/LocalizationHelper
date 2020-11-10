@@ -1,9 +1,9 @@
 import Foundation
 
 class SearchData: SearchingProtocol {
-    func run(languages: inout [Language], key: String, language: String) throws {
-        let keys = getKeys(languages: languages)
-        let languagesKeys = getLanguagesKeys(languages: languages)
+    func run(languages: inout [Language], key: String, language: String, getterStrings: GetStringKeysProtocol) throws {
+        let keys = getterStrings.getKeys(languages: languages)
+        let languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         if language == "" && key == "" {
             printWithOutArg(keys: keys, languages: languages)
