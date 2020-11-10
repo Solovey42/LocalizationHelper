@@ -1,7 +1,7 @@
 import Foundation
 
 class UpdateData: UpdatingProtocol {
-    func update(languages: inout [Language], word: String, key: String, language: String, updatingDataClass: SetDataProtocol) throws {
+    func run(languages: inout [Language], word: String, key: String, language: String, updatingDataClass: SetDataProtocol) throws {
         let languagesKeys = getLanguagesKeys(languages: languages)
         guard languagesKeys.contains(language) else {
             print("Not Found")

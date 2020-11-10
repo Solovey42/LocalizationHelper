@@ -1,7 +1,7 @@
 import Foundation
 
 class SearchData: SearchingProtocol {
-    func search(languages: inout [Language], key: String, language: String) throws {
+    func run(languages: inout [Language], key: String, language: String) throws {
         let keys = getKeys(languages: languages)
         let languagesKeys = getLanguagesKeys(languages: languages)
 
