@@ -1,6 +1,6 @@
 import Foundation
 
-class UpdateData {
+class UpdateData: UpdatingProtocol {
     func update(languages: inout [Language], word: String, key: String, language: String, updatingDataClass: SetDataProtocol) throws {
         let languagesKeys = getLanguagesKeys(languages: languages)
         guard languagesKeys.contains(language) else {
@@ -18,6 +18,7 @@ class UpdateData {
         }
         print("Not found")
     }
+
     func getLanguagesKeys(languages: [Language]) -> [String] {
         var languagesKeys: [String] = []
         for i in 0...languages.count - 1 {
@@ -27,6 +28,7 @@ class UpdateData {
         }
         return languagesKeys
     }
+
     func getKeys(languages: [Language]) -> [String] {
         var keys: [String] = []
         for i in 0...languages.count - 1 {

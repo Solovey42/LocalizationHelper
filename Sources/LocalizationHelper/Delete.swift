@@ -1,6 +1,6 @@
 import Foundation
 
-class DeleteData {
+class DeleteData: DeletingProtocol {
     func delete(languages: inout [Language], key: String, language: String, updatingDataClass: SetDataProtocol) throws {
         let keys = getKeys(languages: languages)
         let languagesKeys = getLanguagesKeys(languages: languages)
@@ -59,6 +59,7 @@ class DeleteData {
             }
         }
     }
+
     func getLanguagesKeys(languages: [Language]) -> [String] {
         var languagesKeys: [String] = []
         for i in 0...languages.count - 1 {
@@ -68,6 +69,7 @@ class DeleteData {
         }
         return languagesKeys
     }
+
     func getKeys(languages: [Language]) -> [String] {
         var keys: [String] = []
         for i in 0...languages.count - 1 {
