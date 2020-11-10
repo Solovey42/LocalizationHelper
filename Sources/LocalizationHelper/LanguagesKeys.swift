@@ -4,7 +4,7 @@
 
 import Foundation
 
-class LanguagesKeys {
+class LanguagesKeys:GetStringKeysProtocol {
     func getKeys(languages: [Language]) -> [String] {
         var keys: [String] = []
         for i in 0...languages.count - 1 {
