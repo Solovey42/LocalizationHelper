@@ -13,7 +13,4 @@ protocol SearchingProtocol {
     var updaterClass: UpdatingProtocol? { get set }
 
     func run(command: String,key: String, language: String, word:String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass:DeletingProtocol, updaterClass: UpdatingProtocol) throws
-/*    func search()
-    func update()
-    func delete() throws*/
 }
