@@ -30,35 +30,35 @@ class SearchData: SearchingProtocol {
 
 
         if language == "" && key == "" {
-            printWithOutArg(keys: keys, languages: languages)
+            searchWithOutArg(keys: keys, languages: languages)
         } else if language == "" && key != "" {
             if command == "search" {
-                printWithKey(key: key, language: language, keys: keys, languages: &languages)
+                searchWithKey(key: key, language: language, keys: keys, languages: &languages)
             } else {
-                printWithKey(key: key, language: language, keys: keys, languages: &languages)
+                searchWithKey(key: key, language: language, keys: keys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else if language != "" && key == "" {
             if command == "search" {
-                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                searchWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             } else {
-                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                searchWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else {
             if command == "search" {
-                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             } else if command == "delete" {
-                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             } else if command == "update" {
-                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         }
     }
 
-    func printWithOutArg(keys: [String], languages: [Language]) {
+    func searchWithOutArg(keys: [String], languages: [Language]) {
         for item in keys {
             print(item)
             for n in 0...languages.count - 1 {
@@ -70,7 +70,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWithLanguage(key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
+    func searchWithLanguage(key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
         guard languagesKeys.contains(language) else {
             print("Not Found")
             exit(0)
@@ -79,7 +79,6 @@ class SearchData: SearchingProtocol {
             if languages[i].key == language {
                 if command == "search" {
                     for (key, value) in languages[i].words {
-
                         print("\(key) = \(value)")
                     }
                 } else if command == "delete" {
@@ -92,7 +91,7 @@ class SearchData: SearchingProtocol {
     }
 
 
-    func printWithKey(key: String, language: String, keys: [String], languages: inout [Language]) {
+    func searchWithKey(key: String, language: String, keys: [String], languages: inout [Language]) {
         guard keys.contains(key) else {
             print("Not Found")
             exit(0)
@@ -115,7 +114,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWitAllArg(word: String, key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
+    func searchWitAllArg(word: String, key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
         guard !languagesKeys.contains(language) else {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
