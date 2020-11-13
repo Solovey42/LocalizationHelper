@@ -8,6 +8,7 @@ class JsonSetter: SetDataProtocol {
             try json.write(to: URL(fileURLWithPath: path))
         } catch {
             print("Ошибка сохранения данных")
+            exit(0)
         }
     }
 }
