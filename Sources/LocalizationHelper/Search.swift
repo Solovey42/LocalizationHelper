@@ -47,12 +47,12 @@ class SearchData: SearchingProtocol {
             }
         } else {
             if command == "search" {
-                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             } else if command == "delete" {
-                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             } else if command == "update" {
-                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try printWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         }
@@ -101,7 +101,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWitAllArg(word: String,key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
+    func printWitAllArg(word: String, key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
         guard !languagesKeys.contains(language) else {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
@@ -110,11 +110,11 @@ class SearchData: SearchingProtocol {
                         print("\(value)")
                         break
                     } else if command == "delete" {
-                        deleter.deleteWithAllArg(indexValue: i, key: key, languages: &languages)
+                        deleterClass?.deleteWithAllArg(indexValue: i, key: key, languages: &languages)
                         print("Word \(value) was deleted from language \(languages[i].key)")
                         break
-                    } else if command == "update"{
-
+                    } else if command == "update" {
+                        updaterClass?.update(indexValue: i, word: word, key: key, languages: &languages)
                         print("Word \(value) was updated")
                     }
                 }

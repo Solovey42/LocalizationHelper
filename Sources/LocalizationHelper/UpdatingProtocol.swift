@@ -1,5 +1,5 @@
 import Foundation
 
 protocol UpdatingProtocol {
-    func run(languages: inout [Language], word: String, key: String, language: String, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol) throws
+    func update(indexValue: Int, word: String, key: String, languages: inout [Language])
 }
