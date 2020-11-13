@@ -13,7 +13,7 @@ class SearchData: SearchingProtocol {
     var languagesKeys: [String] = []
     var deleterClass: DeletingProtocol?
 
-    func run(command:String, key: String, language: String, word: String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass: DeletingProtocol) throws {
+    func run(command: String, key: String, language: String, word: String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass: DeletingProtocol) throws {
         self.command = command
         self.languages = try gettingDataClass.gettingData()
         self.key = key
@@ -31,27 +31,24 @@ class SearchData: SearchingProtocol {
         } else if language == "" && key != "" {
             if command == "search" {
                 printWithKey(key: key, language: language, keys: keys, languages: languages)
-            }
-            else {
+            } else {
                 deleter.deleteWithKey(key: key, language: language, keys: keys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else if language != "" && key == "" {
             if command == "search" {
                 printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
-            }
-            else {
+            } else {
                 deleter.deleteWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else {
             if command == "search" {
                 try printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
-            }
-            else if command == "delete" {
-                try printWitAllArg(key: key, language: language , languagesKeys: languagesKeys, languages: &languages)
-            }
-            else if command == "update"{
+            } else if command == "delete" {
+                try printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try updatingDataClass.settingData(languages: &languages)
+            } else if command == "update" {
                 print("обновление")
             }
         }
@@ -100,28 +97,24 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: inout [Language]) throws {
-        guard languagesKeys.contains(language) else {
-            print("Not Found")
-            exit(0)
-        }
-
-        for i in 0...languages.count - 1 {
-            for (wordKey, value) in languages[i].words
-                where wordKey == key && languages[i].key == language {
-                if command == "search"{
-                    print("\(value)")
-                    exit(0)
-                }
-                else if command == "delete"{
-                    deleter.deleteWithAllArg(indexValue:i, key: key,languages: &languages)
-                    try updatingDataClass?.settingData(languages: &languages)
-                    print("Word \(value) was deleted from language \(languages[i].key)")
-                    exit(0)
+    func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
+        guard !languagesKeys.contains(language) else {
+            for i in 0...languages.count - 1 {
+                for (wordKey, value) in languages[i].words
+                    where wordKey == key && languages[i].key == language {
+                    if command == "search" {
+                        print("\(value)")
+                        break
+                    } else if command == "delete" {
+                        deleter.deleteWithAllArg(indexValue: i, key: key, languages: &languages)
+                        print("Word \(value) was deleted from language \(languages[i].key)")
+                        break
+                    }
                 }
             }
+            return
         }
-        print("Not found")
+        print("Not Found")
     }
 }
 
