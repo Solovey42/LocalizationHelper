@@ -1,5 +1,9 @@
 import Foundation
 
 protocol DeletingProtocol {
-    func run(languages: inout [Language], key: String, language: String, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol) throws
+
+    //func run(languages: inout [Language], key: String, language: String,keys:[String],languagesKeys:[String]) throws
+    func deleteWithKey(key: String, language: String, keys: [String], languages: inout [Language])
+    func deleteWithLanguage(key: String, language: String, languagesKeys: [String], languages: inout [Language])
+    func deleteWithAllArg(key: String, languages: inout [Language])
 }
