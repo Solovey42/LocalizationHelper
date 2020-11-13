@@ -32,27 +32,18 @@ class SearchData: SearchingProtocol {
         if language == "" && key == "" {
             searchWithOutArg(keys: keys, languages: languages)
         } else if language == "" && key != "" {
-            if command == "search" {
-                searchWithKey(key: key, language: language, keys: keys, languages: &languages)
-            } else {
-                searchWithKey(key: key, language: language, keys: keys, languages: &languages)
+            searchWithKey(key: key, language: language, keys: keys, languages: &languages)
+            if command == "delete" {
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else if language != "" && key == "" {
-            if command == "search" {
-                searchWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
-            } else {
-                searchWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+            searchWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+            if command == "delete" {
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else {
-            if command == "search" {
-                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
-            } else if command == "delete" {
-                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
-                try updatingDataClass.settingData(languages: &languages)
-            } else if command == "update" {
-                searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+            searchWitAllArg(word: word, key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+            if command == "delete" || command == "update" {
                 try updatingDataClass.settingData(languages: &languages)
             }
         }
