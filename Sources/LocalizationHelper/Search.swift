@@ -40,9 +40,9 @@ class SearchData: SearchingProtocol {
             }
         } else if language != "" && key == "" {
             if command == "search" {
-                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             } else {
-                deleter.deleteWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else {
@@ -70,19 +70,27 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWithLanguage(key: String, language: String, languagesKeys: [String], languages: [Language]) {
+    func printWithLanguage(key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
         guard languagesKeys.contains(language) else {
             print("Not Found")
             exit(0)
         }
         for i in 0...languages.count - 1 {
             if languages[i].key == language {
-                for (key, value) in languages[i].words {
-                    print("\(key) = \(value)")
+                if command == "search" {
+                    for (key, value) in languages[i].words {
+
+                        print("\(key) = \(value)")
+                    }
+                } else if command == "delete" {
+                    deleterClass?.deleteWithLanguage(indexValue: i, languages: &languages)
+                    print("Language \(language) was deleted")
+                    break
                 }
             }
         }
     }
+
 
     func printWithKey(key: String, language: String, keys: [String], languages: inout [Language]) {
         guard keys.contains(key) else {
@@ -97,9 +105,8 @@ class SearchData: SearchingProtocol {
                     if command == "search" {
                         print("\t\(languages[i].key): \(value)")
                         break
-                    }
-                    else if command == "delete" {
-                        deleterClass?.deleteWithKey(indexValue: i,key: key,languages: &languages)
+                    } else if command == "delete" {
+                        deleterClass?.deleteWithKey(indexValue: i, key: key, languages: &languages)
                         print("Word \(key) was deleted from language \(languages[i].key)")
                         break
                     }
@@ -130,6 +137,7 @@ class SearchData: SearchingProtocol {
         }
         print("Not Found")
     }
+
 }
 
 
