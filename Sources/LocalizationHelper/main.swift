@@ -30,7 +30,8 @@ let parser = container.argumentParser
 let arguments = container.argumentParser.parsing()
 
 let getterData = container.getData
-var data = try getterData.gettingData()
+
+let setterData = container.setData
 
 let getterStrings = container.getterString
 
@@ -39,14 +40,12 @@ let deleter = container.delete
 
 
 switch (arguments) {
-case .search(let key, let language):
-    try container.search.run(languages: &data, key: key ?? "", language: language ?? "", getterStrings: getterStrings)
-case .update(let word, let key, let language):
-    let setterData = container.setData
-    try container.update.run(languages: &data, word: word, key: key, language: language, updatingDataClass: setterData, getterStrings: getterStrings)
-case .delete(let key, let language):
-    let setterData = container.setData
-    try container.delete.run(languages: &data, key: key ?? "", language: language ?? "", updatingDataClass: setterData, getterStrings: getterStrings)
+case .search(let command, let key, let language):
+    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter)
+case .update(let command, let word, let key, let language):
+    try searcher.run(command: command, key: key, language: language, word: word, gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter)
+case .delete(let command, let key, let language):
+    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter)
 default: break
 }
 
