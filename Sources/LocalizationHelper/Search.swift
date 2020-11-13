@@ -12,8 +12,9 @@ class SearchData: SearchingProtocol {
     var keys: [String] = []
     var languagesKeys: [String] = []
     var deleterClass: DeletingProtocol?
+    var updaterClass: UpdatingProtocol?
 
-    func run(command: String, key: String, language: String, word: String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass: DeletingProtocol) throws {
+    func run(command: String, key: String, language: String, word: String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass: DeletingProtocol, updaterClass: UpdatingProtocol) throws {
         self.command = command
         self.languages = try gettingDataClass.gettingData()
         self.key = key
@@ -24,7 +25,9 @@ class SearchData: SearchingProtocol {
         self.getterStrings = getterStrings
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
-        self.deleterClass = deleter
+        self.deleterClass = deleterClass
+        self.updaterClass = updaterClass
+
 
         if language == "" && key == "" {
             printWithOutArg(keys: keys, languages: languages)
@@ -44,12 +47,13 @@ class SearchData: SearchingProtocol {
             }
         } else {
             if command == "search" {
-                try printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             } else if command == "delete" {
-                try printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             } else if command == "update" {
-                print("обновление")
+                try printWitAllArg(word: word,key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try updatingDataClass.settingData(languages: &languages)
             }
         }
     }
@@ -97,7 +101,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
+    func printWitAllArg(word: String,key: String, language: String, languagesKeys: [String], languages: inout [Language]) {
         guard !languagesKeys.contains(language) else {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
@@ -109,6 +113,9 @@ class SearchData: SearchingProtocol {
                         deleter.deleteWithAllArg(indexValue: i, key: key, languages: &languages)
                         print("Word \(value) was deleted from language \(languages[i].key)")
                         break
+                    } else if command == "update"{
+
+                        print("Word \(value) was updated")
                     }
                 }
             }
