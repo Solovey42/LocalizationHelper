@@ -2,7 +2,7 @@ import Foundation
 
 class DeleteData: DeletingProtocol {
 
-    func deleteWithKey(indexValue: Int, key: String, languages: [Language]) {
+    func deleteWithKey(indexValue: Int, key: String, languages: inout [Language]) {
         languages[indexValue].words.removeValue(forKey: key)
     }
 

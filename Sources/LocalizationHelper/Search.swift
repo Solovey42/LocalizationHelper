@@ -33,9 +33,9 @@ class SearchData: SearchingProtocol {
             printWithOutArg(keys: keys, languages: languages)
         } else if language == "" && key != "" {
             if command == "search" {
-                printWithKey(key: key, language: language, keys: keys, languages: languages)
+                printWithKey(key: key, language: language, keys: keys, languages: &languages)
             } else {
-                deleter.deleteWithKey(key: key, language: language, keys: keys, languages: &languages)
+                printWithKey(key: key, language: language, keys: keys, languages: &languages)
                 try updatingDataClass.settingData(languages: &languages)
             }
         } else if language != "" && key == "" {
@@ -84,7 +84,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWithKey(key: String, language: String, keys: [String], languages: [Language]) {
+    func printWithKey(key: String, language: String, keys: [String], languages: inout [Language]) {
         guard keys.contains(key) else {
             print("Not Found")
             exit(0)
@@ -94,8 +94,15 @@ class SearchData: SearchingProtocol {
             if languages[i].words.keys.contains(key) {
                 for (wordKey, value) in languages[i].words
                     where wordKey == key {
-                    print("\t\(languages[i].key): \(value)")
-                    break
+                    if command == "search" {
+                        print("\t\(languages[i].key): \(value)")
+                        break
+                    }
+                    else if command == "delete" {
+                        deleterClass?.deleteWithKey(indexValue: i,key: key,languages: &languages)
+                        print("Word \(key) was deleted from language \(languages[i].key)")
+                        break
+                    }
                 }
             }
         }
