@@ -34,6 +34,10 @@ var data = try getterData.gettingData()
 
 let getterStrings = container.getterString
 
+let searcher = container.search
+let deleter = container.delete
+
+
 switch (arguments) {
 case .search(let key, let language):
     try container.search.run(languages: &data, key: key ?? "", language: language ?? "", getterStrings: getterStrings)
