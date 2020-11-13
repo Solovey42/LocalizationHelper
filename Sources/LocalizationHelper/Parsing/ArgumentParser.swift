@@ -14,9 +14,11 @@ class ArgumentParser: ArgumentsParserProtocol {
             case let command as Arguments.Delete:
                 return .delete(key: command.options.key, language: command.options.language)
             default:
+                print(Arguments.helpMessage())
                 return nil
             }
         } catch {
+            print(Arguments.helpMessage())
             return nil
         }
     }
