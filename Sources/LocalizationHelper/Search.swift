@@ -1,20 +1,63 @@
 import Foundation
 
 class SearchData: SearchingProtocol {
-    func run(languages: inout [Language], key: String, language: String, getterStrings: GetStringKeysProtocol) throws {
-        let keys = getterStrings.getKeys(languages: languages)
-        let languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
+    var command: String = ""
+    var languages: [Language] = []
+    var key: String?
+    var language: String?
+    var word: String?
+    var gettingDataClass: GetDataProtocol?
+    var updatingDataClass: SetDataProtocol?
+    var getterStrings: GetStringKeysProtocol?
+    var keys: [String] = []
+    var languagesKeys: [String] = []
+    var deleterClass: DeletingProtocol?
+
+    func run(command:String, key: String, language: String, word: String, gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, deleterClass: DeletingProtocol) throws {
+        self.command = command
+        self.languages = try gettingDataClass.gettingData()
+        self.key = key
+        self.language = language
+        self.word = word
+        self.gettingDataClass = gettingDataClass
+        self.updatingDataClass = updatingDataClass
+        self.getterStrings = getterStrings
+        self.keys = getterStrings.getKeys(languages: languages)
+        self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
+        self.deleterClass = deleter
 
         if language == "" && key == "" {
             printWithOutArg(keys: keys, languages: languages)
         } else if language == "" && key != "" {
-            printWithKey(key: key, language: language, keys: keys, languages: languages)
+            if command == "search" {
+                printWithKey(key: key, language: language, keys: keys, languages: languages)
+            }
+            else {
+                deleter.deleteWithKey(key: key, language: language, keys: keys, languages: &languages)
+                try updatingDataClass.settingData(languages: &languages)
+            }
         } else if language != "" && key == "" {
-            printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+            if command == "search" {
+                printWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+            }
+            else {
+                deleter.deleteWithLanguage(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
+                try updatingDataClass.settingData(languages: &languages)
+            }
         } else {
-            printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+            if command == "search" {
+                printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+            }
+            else if command == "delete" {
+                deleter.deleteWithAllArg(key: key, language: language , languagesKeys: languagesKeys, languages: &languages)
+                try updatingDataClass.settingData(languages: &languages)
+            }
+            else if command == "update"{
+                print("обновление")
+            }
         }
     }
+
     func printWithOutArg(keys: [String], languages: [Language]) {
         for item in keys {
             print(item)
