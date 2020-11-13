@@ -46,11 +46,10 @@ class SearchData: SearchingProtocol {
             }
         } else {
             if command == "search" {
-                printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: languages)
+                try printWitAllArg(key: key, language: language, languagesKeys: languagesKeys, languages: &languages)
             }
             else if command == "delete" {
-                deleter.deleteWithAllArg(key: key, language: language , languagesKeys: languagesKeys, languages: &languages)
-                try updatingDataClass.settingData(languages: &languages)
+                try printWitAllArg(key: key, language: language , languagesKeys: languagesKeys, languages: &languages)
             }
             else if command == "update"{
                 print("обновление")
@@ -101,7 +100,7 @@ class SearchData: SearchingProtocol {
         }
     }
 
-    func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: [Language]) {
+    func printWitAllArg(key: String, language: String, languagesKeys: [String], languages: inout [Language]) throws {
         guard languagesKeys.contains(language) else {
             print("Not Found")
             exit(0)
@@ -110,8 +109,16 @@ class SearchData: SearchingProtocol {
         for i in 0...languages.count - 1 {
             for (wordKey, value) in languages[i].words
                 where wordKey == key && languages[i].key == language {
-                print("\(value)")
-                exit(0)
+                if command == "search"{
+                    print("\(value)")
+                    exit(0)
+                }
+                else if command == "delete"{
+                    deleter.deleteWithAllArg(indexValue:i, key: key,languages: &languages)
+                    try updatingDataClass?.settingData(languages: &languages)
+                    print("Word \(value) was deleted from language \(languages[i].key)")
+                    exit(0)
+                }
             }
         }
         print("Not found")

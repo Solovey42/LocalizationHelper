@@ -33,7 +33,7 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithAllArg(key: String, languages: inout [Language]) {
-        languages[i].words.removeValue(forKey: key)
+    func deleteWithAllArg(indexValue: Int, key: String, languages: inout [Language]) {
+        languages[indexValue].words.removeValue(forKey: key)
     }
 }
