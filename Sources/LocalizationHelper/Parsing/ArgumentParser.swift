@@ -26,6 +26,7 @@ class ArgumentParser: ArgumentsParserProtocol {
 
 struct Arguments: ParsableCommand {
     static var configuration = CommandConfiguration(
+            commandName: "arguments",
             abstract: "A program for translate words.",
             subcommands: [Search.self, Update.self, Delete.self])
 }
@@ -45,8 +46,8 @@ extension Arguments {
     }
 
     struct Update: ParsableCommand {
-        @Option(name: .shortAndLong, help: "The word to translate into.") var key: String = ""
-        @Option(name: .shortAndLong, help: "Language into which we translate") var language: String = ""
+        @Option(name: .shortAndLong, help: "The word to translate into.") var key: String
+        @Option(name: .shortAndLong, help: "Language into which we translate") var language: String
         @Argument
         var word: String
         static var configuration = CommandConfiguration(
