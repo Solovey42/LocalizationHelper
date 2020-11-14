@@ -2,13 +2,18 @@ import Foundation
 
 class JsonSetter: SetDataProtocol {
     func settingData(languages: inout [Language]) throws {
-        let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
         do {
-            let json = try JSONEncoder().encode(languages.self)
-            try json.write(to: URL(fileURLWithPath: path))
-        } catch {
-            print("Ошибка сохранения данных")
-            exit(0)
+            if let path = try Bundle.module.path(forResource: "languages", ofType: "json") {
+                do {
+                    let json = try JSONEncoder().encode(languages.self)
+                    try json.write(to: URL(fileURLWithPath: path))
+                } catch {
+                    print("Ошибка записи файла")
+                }
+            } else {
+                print("Ошибка поиска пути до файла.")
+            }
         }
     }
+
 }
