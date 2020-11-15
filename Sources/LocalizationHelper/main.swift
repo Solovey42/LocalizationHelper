@@ -11,7 +11,7 @@ class Container {
         JsonSetter()
     }
     var search: SearchingProtocol {
-        SearchData()
+        SearchData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, deleterClass: delete, updaterClass: update, outputClass: output)
     }
     var update: UpdatingProtocol {
         UpdateData()
@@ -47,11 +47,11 @@ let updater = container.update
 
 switch (arguments) {
 case .search(let command, let key, let language):
-    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
+    try searcher.search(command: command, key: key ?? "", language: language ?? "", word: "")
 case .update(let command, let word, let key, let language):
-    try searcher.run(command: command, key: key, language: language, word: word, gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
+    try searcher.search(command: command, key: key, language: language, word: word)
 case .delete(let command, let key, let language):
-    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
+    try searcher.search(command: command, key: key ?? "", language: language ?? "", word: "")
 default: break
 }
 
