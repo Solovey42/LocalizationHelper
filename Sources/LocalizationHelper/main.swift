@@ -22,6 +22,9 @@ class Container {
     var getterString: GetStringKeysProtocol {
         LanguagesKeys()
     }
+    var output: OutputProtocol {
+        Output()
+    }
 }
 
 let container = Container()
@@ -35,6 +38,8 @@ let setterData = container.setData
 
 let getterStrings = container.getterString
 
+let output = container.output
+
 let searcher = container.search
 let deleter = container.delete
 let updater = container.update
@@ -42,11 +47,11 @@ let updater = container.update
 
 switch (arguments) {
 case .search(let command, let key, let language):
-    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater)
+    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
 case .update(let command, let word, let key, let language):
-    try searcher.run(command: command, key: key, language: language, word: word, gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater)
+    try searcher.run(command: command, key: key, language: language, word: word, gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
 case .delete(let command, let key, let language):
-    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater)
+    try searcher.run(command: command, key: key ?? "", language: language ?? "", word: "", gettingDataClass: getterData, updatingDataClass: setterData, getterStrings: getterStrings, deleterClass: deleter, updaterClass: updater, outputClass: output)
 default: break
 }
 
