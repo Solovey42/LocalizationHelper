@@ -19,6 +19,9 @@ class Container {
     var delete: DeletingProtocol {
         DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
     }
+    var show: ShowingProtocol{
+        ShowData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
     var getterString: GetStringKeysProtocol {
         LanguagesKeys()
     }
@@ -41,16 +44,17 @@ let getterStrings = container.getterString
 let output = container.output
 
 let searcher = container.search
+let show = container.show
 let deleter = container.delete
 let updater = container.update
 
 
 switch (arguments) {
-case .search(let command, let key, let language):
-    try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
-case .update(let command, let word, let key, let language):
+case .search(let key, let language):
+    try show.startShowing(key: key ?? "", language: language ?? "", word: "")
+case .update(let word, let key, let language):
     try updater.startUpdating(key: key, language: language, word: word)
-case .delete(let command, let key, let language):
+case .delete(let key, let language):
     try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
 default: break
 }
