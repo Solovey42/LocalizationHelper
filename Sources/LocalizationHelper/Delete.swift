@@ -43,7 +43,6 @@ class DeleteData: DeletingProtocol {
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
             }
         }
-
     }
 
     func deleteWithLanguage(indexLanguage: Int?) {
