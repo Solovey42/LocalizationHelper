@@ -27,6 +27,7 @@ class UpdateData: UpdatingProtocol {
 
         if let index = item?.indexValue {
             languages[index].words.updateValue(word, forKey: item?.key ?? "")
+            outputClass.printUpdate(value: item?.value ?? "")
         }
         try updatingDataClass.settingData(languages: &languages)
     }
