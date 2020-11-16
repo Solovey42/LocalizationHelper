@@ -124,7 +124,6 @@ class SearchData: SearchingProtocol {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
                     where wordKey == key && languages[i].key == language {
-                    print((i,word,key,value))
                     return (i, word, key, value)
 /*                    if command == "search" {
                         outputClass.printWord(word: value)
