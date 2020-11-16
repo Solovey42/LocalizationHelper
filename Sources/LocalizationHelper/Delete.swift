@@ -2,32 +2,24 @@ import Foundation
 
 class DeleteData: DeletingProtocol {
     var languages: [Language] = []
-    var key: String = ""
-    var language: String = ""
-    var word: String = ""
     var gettingDataClass: GetDataProtocol
     var updatingDataClass: SetDataProtocol
     var getterStrings: GetStringKeysProtocol
     var keys: [String] = []
     var languagesKeys: [String] = []
-    var updaterClass: UpdatingProtocol
     var outputClass: OutputProtocol
     var searchCLass: SearchingProtocol
 
-    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, updaterClass: UpdatingProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
         self.gettingDataClass = gettingDataClass
         self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
-        self.updaterClass = updaterClass
         self.outputClass = outputClass
         self.searchCLass = searchingClass
     }
 
     func startDeleting(key: String, language: String, word: String) throws {
         self.languages = try gettingDataClass.gettingData()
-        self.key = key
-        self.language = language
-        self.word = word
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
