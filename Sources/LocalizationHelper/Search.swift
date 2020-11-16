@@ -120,11 +120,6 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWitAllArg(languagesKeys: [String], language: String, languages: [Language], key: String, word: String) -> (indexValue: Int, word: String, key: String, value: String)? {
-        print(languagesKeys)
-        print(language)
-        print(languages)
-        print(key)
-        print(word)
         guard !languagesKeys.contains(language) else {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
