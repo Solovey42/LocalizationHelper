@@ -8,19 +8,20 @@ class ArgumentParser: ArgumentsParserProtocol {
 
             switch command {
             case let command as Arguments.Search:
-                return .search(command: Arguments.Search._commandName, key: command.options.key, language: command.options.language)
+                return .search(key: command.options.key, language: command.options.language)
             case let command as Arguments.Update:
-                return .update(command: Arguments.Update._commandName, word: command.word, key: command.key, language: command.language)
+                return .update(word: command.word, key: command.key, language: command.language)
             case let command as Arguments.Delete:
-                return .delete(command: Arguments.Delete._commandName, key: command.options.key, language: command.options.language)
+                return .delete(key: command.options.key, language: command.options.language)
             default:
-                print(Arguments.helpMessage())
                 return nil
             }
         } catch {
-            print(Arguments.helpMessage())
             return nil
         }
+    }
+    func help(){
+        print(Arguments.helpMessage())
     }
 }
 

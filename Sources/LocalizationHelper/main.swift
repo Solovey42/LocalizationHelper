@@ -56,6 +56,6 @@ case .update(let word, let key, let language):
     try updater.startUpdating(key: key, language: language, word: word)
 case .delete(let key, let language):
     try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
-default: break
+default: parser.help()
 }
 
