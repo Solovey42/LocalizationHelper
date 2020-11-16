@@ -36,9 +36,11 @@ class DeleteData: DeletingProtocol {
         try updatingDataClass.settingData(languages: &languages)
     }
 
-    func deleteWithKey(items: [(indexValue: Int, key: String, value: String)]) {
-        for item in items {
-            languages[item.indexValue].words.removeValue(forKey: item.key)
+    func deleteWithKey(items: [(indexValue: Int, key: String, value: String)]?) {
+        if let words = items {
+            for item in words {
+                languages[item.indexValue].words.removeValue(forKey: item.key)
+            }
         }
     }
 
