@@ -11,13 +11,13 @@ class Container {
         JsonSetter()
     }
     var search: SearchingProtocol {
-        SearchData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, deleterClass: delete, updaterClass: update, outputClass: output)
+        SearchData(outputClass: output)
     }
     var update: UpdatingProtocol {
         UpdateData()
     }
     var delete: DeletingProtocol {
-        DeleteData()
+        DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, updaterClass: update, outputClass: output, searchingClass: search)
     }
     var getterString: GetStringKeysProtocol {
         LanguagesKeys()
@@ -47,11 +47,11 @@ let updater = container.update
 
 switch (arguments) {
 case .search(let command, let key, let language):
-    try searcher.search(command: command, key: key ?? "", language: language ?? "", word: "")
+    try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
 case .update(let command, let word, let key, let language):
-    try searcher.search(command: command, key: key, language: language, word: word)
+    try deleter.startDeleting(key: key, language: language, word: word)
 case .delete(let command, let key, let language):
-    try searcher.search(command: command, key: key ?? "", language: language ?? "", word: "")
+    try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
 default: break
 }
 
