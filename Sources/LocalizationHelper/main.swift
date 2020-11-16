@@ -14,10 +14,10 @@ class Container {
         SearchData(outputClass: output)
     }
     var update: UpdatingProtocol {
-        UpdateData()
+        UpdateData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
     }
     var delete: DeletingProtocol {
-        DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, updaterClass: update, outputClass: output, searchingClass: search)
+        DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
     }
     var getterString: GetStringKeysProtocol {
         LanguagesKeys()
@@ -49,7 +49,7 @@ switch (arguments) {
 case .search(let command, let key, let language):
     try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
 case .update(let command, let word, let key, let language):
-    try deleter.startDeleting(key: key, language: language, word: word)
+    try updater.startUpdating(key: key, language: language, word: word)
 case .delete(let command, let key, let language):
     try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
 default: break
