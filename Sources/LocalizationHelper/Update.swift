@@ -8,14 +8,14 @@ class UpdateData: UpdatingProtocol {
     var keys: [String] = []
     var languagesKeys: [String] = []
     var outputClass: OutputProtocol
-    var searchCLass: SearchingProtocol
+    var searchClass: SearchingProtocol
 
     init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
         self.gettingDataClass = gettingDataClass
         self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
         self.outputClass = outputClass
-        self.searchCLass = searchingClass
+        self.searchClass = searchingClass
     }
 
     func startUpdating(key: String, language: String, word: String) throws {
@@ -23,7 +23,7 @@ class UpdateData: UpdatingProtocol {
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        let item = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
+        let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
 
         if let index = item?.indexValue {
             languages[index].words.updateValue(word, forKey: item?.key ?? "")
