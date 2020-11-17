@@ -25,9 +25,9 @@ class UpdateData: UpdatingProtocol {
 
         let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
 
-        if let index = item?.indexValue {
-            languages[index].words.updateValue(word, forKey: item?.key ?? "")
-            outputClass.printUpdate(value: item?.value ?? "")
+        if let updatingWord = item {
+            languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
+            outputClass.printUpdate(value: updatingWord.value)
         }
         try updatingDataClass.settingData(languages: &languages)
     }

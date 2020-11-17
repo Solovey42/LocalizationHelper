@@ -53,9 +53,9 @@ class DeleteData: DeletingProtocol {
     }
 
     func deleteWithAllArg(item: (indexValue: Int, word: String, key: String, value: String)?) {
-        if let word = item {
-            languages[word.indexValue].words.removeValue(forKey: item?.key ?? "")
-            outputClass.printDeleteWord(key: languages[word.indexValue].key, value: item?.value ?? "")
+        if let deletingWord = item {
+            languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
+            outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
         }
     }
 }
