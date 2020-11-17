@@ -18,22 +18,33 @@ class DeleteData: DeletingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startDeleting(key: String, language: String) throws {
+    func startDeleting(key: String?, language: String?) throws {
         self.languages = try gettingDataClass.gettingData()
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        if language == "" && key != "" {
-            let words = searchCLass.searchWithKey(keys: keys, key: key, languages: languages)
-            deleteWithKey(items: words)
-        } else if language != "" && key == "" {
-            let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: language, languages: languages)
-            deleteWithLanguage(indexLanguage: indexLanguage)
+        if language == nil && key != nil {
+            //print(language, key)
+            if let argKey = key {
+                let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
+                deleteWithKey(items: words)
+            }
+        } else if language != nil && key == nil {
+            if let argLanguage = language {
+                let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
+                deleteWithLanguage(indexLanguage: indexLanguage)
+            }
         } else {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
-            deleteWithAllArg(item: word)
+            if let argLanguage = language {
+               if let argKey = key {
+                    let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+                    deleteWithAllArg(item: word)
+                }
+            }
         }
         try updatingDataClass.settingData(languages: &languages)
+
+
     }
 
     func deleteWithKey(items: [(indexValue: Int, key: String, value: String)]?) {
