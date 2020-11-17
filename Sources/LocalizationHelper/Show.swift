@@ -31,23 +31,15 @@ class ShowData: ShowingProtocol {
         if language == nil && key == nil {
             let words = searchCLass.searchWithOutArg(keys: keys, languages: languages)
             showWithOutArg(items: words)
-        } else if language == nil && key != nil {
-            if let argKey = key {
-                let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
-                showWithKey(key: argKey, items: words)
-            }
-        } else if language != nil && key == nil {
-            if let argLanguage = language {
-                let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
-                showWithLanguage(indexLanguage: indexLanguage)
-            }
-        } else {
-            if let argLanguage = language {
-                if let argKey = key {
-                    let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
-                    showWithAllArg(item: word)
-                }
-            }
+        } else if let argLanguage = language, let argKey = key {
+            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+            showWithAllArg(item: word)
+        } else if let argKey = key {
+            let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
+            showWithKey(key: argKey, items: words)
+        } else if let argLanguage = language {
+            let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
+            showWithLanguage(indexLanguage: indexLanguage)
         }
     }
 
