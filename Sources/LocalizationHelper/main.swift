@@ -51,7 +51,7 @@ let updater = container.update
 
 switch (arguments) {
 case .search(let key, let language):
-    try show.startShowing(key: key ?? "", language: language ?? "")
+    try show.startShowing(key: key ?? nil, language: language ?? nil)
 case .update(let word, let key, let language):
     try updater.startUpdating(key: key, language: language, word: word)
 case .delete(let key, let language):

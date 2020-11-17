@@ -23,25 +23,34 @@ class ShowData: ShowingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startShowing(key: String, language: String) throws {
+    func startShowing(key: String?, language: String?) throws {
         self.languages = try gettingDataClass.gettingData()
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        if language == "" && key == "" {
+        if language == nil && key == nil {
             let words = searchCLass.searchWithOutArg(keys: keys, languages: languages)
             showWithOutArg(items: words)
-        } else if language == "" && key != "" {
-            let words = searchCLass.searchWithKey(keys: keys, key: key, languages: languages)
-            showWithKey(key: key, items: words)
-        } else if language != "" && key == "" {
-            let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: language, languages: languages)
-            showWithLanguage(indexLanguage: indexLanguage)
+        } else if language == nil && key != nil {
+            if let argKey = key {
+                let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
+                showWithKey(key: argKey, items: words)
+            }
+        } else if language != nil && key == nil {
+            if let argLanguage = language {
+                let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
+                showWithLanguage(indexLanguage: indexLanguage)
+            }
         } else {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
-            showWithAllArg(item: word)
+            if let argLanguage = language {
+                if let argKey = key {
+                    let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+                    showWithAllArg(item: word)
+                }
+            }
         }
     }
+
 
     func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) {
         for key in keys {
@@ -76,6 +85,5 @@ class ShowData: ShowingProtocol {
             outputClass.printWord(word: word)
         }
     }
-
 
 }
