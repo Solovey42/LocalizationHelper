@@ -23,7 +23,7 @@ class UpdateData: UpdatingProtocol {
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
+        let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
 
         if let updatingWord = item {
             languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)

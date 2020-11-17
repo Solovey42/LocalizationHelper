@@ -18,7 +18,7 @@ class DeleteData: DeletingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startDeleting(key: String, language: String, word: String) throws {
+    func startDeleting(key: String, language: String) throws {
         self.languages = try gettingDataClass.gettingData()
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
@@ -30,7 +30,7 @@ class DeleteData: DeletingProtocol {
             let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: language, languages: languages)
             deleteWithLanguage(indexLanguage: indexLanguage)
         } else {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
+            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
             deleteWithAllArg(item: word)
         }
         try updatingDataClass.settingData(languages: &languages)
@@ -52,7 +52,7 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithAllArg(item: (indexValue: Int, word: String, key: String, value: String)?) {
+    func deleteWithAllArg(item: (indexValue: Int, key: String, value: String)?) {
         if let deletingWord = item {
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
             outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)

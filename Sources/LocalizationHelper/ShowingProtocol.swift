@@ -5,6 +5,6 @@
 import Foundation
 
 protocol ShowingProtocol {
-    func startShowing( key: String, language: String, word: String) throws
+    func startShowing( key: String, language: String) throws
 
 }

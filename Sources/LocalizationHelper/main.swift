@@ -51,11 +51,11 @@ let updater = container.update
 
 switch (arguments) {
 case .search(let key, let language):
-    try show.startShowing(key: key ?? "", language: language ?? "", word: "")
+    try show.startShowing(key: key ?? "", language: language ?? "")
 case .update(let word, let key, let language):
     try updater.startUpdating(key: key, language: language, word: word)
 case .delete(let key, let language):
-    try deleter.startDeleting(key: key ?? "", language: language ?? "", word: "")
+    try deleter.startDeleting(key: key ?? "", language: language ?? "")
 default: parser.help()
 }
 

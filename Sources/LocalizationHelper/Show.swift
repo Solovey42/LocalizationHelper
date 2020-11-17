@@ -23,7 +23,7 @@ class ShowData: ShowingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startShowing(key: String, language: String, word: String) throws {
+    func startShowing(key: String, language: String) throws {
         self.languages = try gettingDataClass.gettingData()
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
@@ -38,7 +38,7 @@ class ShowData: ShowingProtocol {
             let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: language, languages: languages)
             showWithLanguage(indexLanguage: indexLanguage)
         } else {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key, word: word)
+            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
             showWithAllArg(item: word)
         }
     }
@@ -71,7 +71,7 @@ class ShowData: ShowingProtocol {
         }
     }
 
-    func showWithAllArg(item: (indexValue: Int, word: String, key: String, value: String)?) {
+    func showWithAllArg(item: (indexValue: Int, key: String, value: String)?) {
         if let word = item?.value {
             outputClass.printWord(word: word)
         }

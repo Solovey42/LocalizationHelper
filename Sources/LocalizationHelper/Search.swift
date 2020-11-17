@@ -52,12 +52,12 @@ class SearchData: SearchingProtocol {
         return array
     }
 
-    func searchWitAllArg(languagesKeys: [String], language: String, languages: [Language], key: String, word: String) -> (indexValue: Int, word: String, key: String, value: String)? {
+    func searchWitAllArg(languagesKeys: [String], language: String, languages: [Language], key: String) -> (indexValue: Int, key: String, value: String)? {
         guard !languagesKeys.contains(language) else {
             for i in 0...languages.count - 1 {
                 for (wordKey, value) in languages[i].words
                     where wordKey == key && languages[i].key == language {
-                    return (i, word, key, value)
+                    return (i, key, value)
                 }
             }
             outputClass.printNotFound()
