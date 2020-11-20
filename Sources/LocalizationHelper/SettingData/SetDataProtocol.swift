@@ -1,5 +1,5 @@
 import Foundation
 
 protocol SetDataProtocol {
-    func settingData(languages: inout [Language]) throws
+    func settingData(languages: inout [Language]) -> Void?
 }
