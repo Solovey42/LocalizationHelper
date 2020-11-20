@@ -7,8 +7,12 @@ import Foundation
 protocol OutputProtocol {
     func printWithAllArg(key: String, value: String)
     func printWord(word: String)
-    func printUpdate(value:String)
+    func printUpdate(value: String)
     func printDeleteLanguage(value: String)
     func printDeleteWord(key: String, value: String)
-    func printNotFound()
+    func printNotFoundWord()
+    func printNotFoundKey()
+    func printNotFoundLanguage()
+    func printErrorWrite()
+    func printErrorRead()
 }
