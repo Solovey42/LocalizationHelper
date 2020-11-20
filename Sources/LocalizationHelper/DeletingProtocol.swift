@@ -1,5 +1,5 @@
 import Foundation
 
 protocol DeletingProtocol {
-    func startDeleting(key: String?, language: String?) throws
+    func startDeleting(key: String?, language: String?) -> Int32
 }
