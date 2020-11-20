@@ -4,9 +4,7 @@ class SearchData: SearchingProtocol {
     var outputClass: OutputProtocol
 
     init(outputClass: OutputProtocol) {
-
         self.outputClass = outputClass
-
     }
 
     func searchWithOutArg(keys: [String], languages: [Language]) -> [(key: String, languageKey: String, value: String)] {
@@ -23,10 +21,6 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWithLanguage(languagesKeys: [String], language: String, languages: [Language]) -> Int? {
-        guard languagesKeys.contains(language) else {
-            outputClass.printNotFound()
-            return nil
-        }
         for i in 0...languages.count - 1 {
             if languages[i].key == language {
                 return i
@@ -36,10 +30,6 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWithKey(keys: [String], key: String, languages: [Language]) -> [(indexValue: Int, key: String, value: String)]? {
-        guard keys.contains(key) else {
-            outputClass.printNotFound()
-            return nil
-        }
         var array: [(Int, String, String)] = []
         for i in 0...languages.count - 1 {
             if languages[i].words.keys.contains(key) {
@@ -53,20 +43,30 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWitAllArg(languagesKeys: [String], language: String, languages: [Language], key: String) -> (indexValue: Int, key: String, value: String)? {
-        guard !languagesKeys.contains(language) else {
-            for i in 0...languages.count - 1 {
-                for (wordKey, value) in languages[i].words
-                    where wordKey == key && languages[i].key == language {
-                    return (i, key, value)
-                }
+        for i in 0...languages.count - 1 {
+            for (wordKey, value) in languages[i].words
+                where wordKey == key && languages[i].key == language {
+                return (i, key, value)
             }
-            outputClass.printNotFound()
-            return nil
         }
-        outputClass.printNotFound()
         return nil
     }
 
+    func checkLanguage(languagesKeys: [String], language: String) -> Bool {
+        guard languagesKeys.contains(language) else {
+            outputClass.printNotFoundLanguage()
+            return false
+        }
+        return true
+    }
+
+    func checkKey(keys: [String], key: String) -> Bool {
+        guard keys.contains(key) else {
+            outputClass.printNotFoundKey()
+            return false
+        }
+        return true
+    }
 }
 
 
