@@ -58,20 +58,6 @@ class SearchData: SearchingProtocol {
         }
         return .failure(.UnknownWord)
     }
-
-    func checkLanguage(languagesKeys: [String], language: String) -> Bool {
-        guard languagesKeys.contains(language) else {
-            return false
-        }
-        return true
-    }
-
-    func checkKey(keys: [String], key: String) -> Bool {
-        guard keys.contains(key) else {
-            return false
-        }
-        return true
-    }
 }
 
 
