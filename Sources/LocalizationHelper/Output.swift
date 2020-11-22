@@ -25,6 +25,10 @@ class Output: OutputProtocol {
         print("Word \(value) was deleted from language \(key)")
     }
 
+    func printError(error: ExitCodes){
+        print(error)
+    }
+
     func printNotFoundWord() {
         print("Not Found word")
     }
