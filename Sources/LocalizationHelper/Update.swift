@@ -23,7 +23,7 @@ class UpdateData: UpdatingProtocol {
             self.languages = languages
         } else {
             outputClass.printErrorRead()
-            return ExitCodes.ReadError
+            return .ReadError
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -31,11 +31,11 @@ class UpdateData: UpdatingProtocol {
 
         guard self.searchClass.checkLanguage(languagesKeys: languagesKeys, language: language) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage
+            return .UnknownLanguage
         }
         guard searchClass.checkKey(keys: keys, key: key) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey
+            return .UnknownKey
         }
 
         let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
@@ -43,15 +43,15 @@ class UpdateData: UpdatingProtocol {
             languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
-                return ExitCodes.WriteError
+                return .WriteError
             }
             outputClass.printUpdate(value: updatingWord.value)
-            return ExitCodes.Success
+            return .Success
         } else if item == nil {
             outputClass.printNotFoundWord()
-            return ExitCodes.UnknownWord
+            return .UnknownWord
         } else {
-            return ExitCodes.UpdateError
+            return .UpdateError
         }
     }
 }

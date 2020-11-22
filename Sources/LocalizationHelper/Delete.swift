@@ -39,64 +39,64 @@ class DeleteData: DeletingProtocol {
             let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
             return deleteWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
         } else {
-            return ExitCodes.DeleteError
+            return .DeleteError
         }
     }
 
     func deleteWithKey(argKey: String, items: [(indexValue: Int, key: String, value: String)]?) -> ExitCodes {
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey
+            return .UnknownKey
         }
         if let words = items {
             for item in words {
                 languages[item.indexValue].words.removeValue(forKey: item.key)
                 guard updatingDataClass.settingData(languages: &languages) != nil else {
                     outputClass.printErrorWrite()
-                    return ExitCodes.WriteError
+                    return .WriteError
                 }
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
             }
         }
-        return ExitCodes.Success
+        return .Success
     }
 
     func deleteWithLanguage(argLanguage: String, indexLanguage: Int?) -> ExitCodes {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage
+            return .UnknownLanguage
         }
         if let index = indexLanguage {
             languages.remove(at: index)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
-                return ExitCodes.WriteError
+                return .WriteError
             }
             outputClass.printDeleteLanguage(value: languagesKeys[index])
         }
-        return ExitCodes.Success
+        return .Success
     }
 
     func deleteWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> ExitCodes {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage
+            return .UnknownLanguage
         }
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey
+            return .UnknownKey
         }
         if let deletingWord = item {
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
-                return ExitCodes.WriteError
+                return .WriteError
             }
             outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
-            return ExitCodes.Success
+            return .Success
         } else {
             outputClass.printNotFoundWord()
-            return ExitCodes.UnknownWord
+            return .UnknownWord
         }
     }
 }
