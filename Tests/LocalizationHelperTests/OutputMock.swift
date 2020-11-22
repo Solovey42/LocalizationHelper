@@ -1,7 +1,3 @@
-//
-// Created by solo on 22.11.2020.
-//
-
 import Foundation
 @testable import LocalizationHelper
 
