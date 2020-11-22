@@ -30,7 +30,7 @@ class DeleteData: DeletingProtocol {
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         if let argLanguage = language, let argKey = key {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+            let word = searchCLass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
             return deleteWithAllArg(argLanguage: argLanguage, argKey: argKey, item: word)
         } else if let argKey = key {
             let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
@@ -43,12 +43,9 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithKey(argKey: String, items: [(indexValue: Int, key: String, value: String)]?) -> ExitCodes {
-        guard searchCLass.checkKey(keys: keys, key: argKey) else {
-            outputClass.printNotFoundKey()
-            return .UnknownKey
-        }
-        if let words = items {
+    func deleteWithKey(argKey: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> ExitCodes {
+        switch items {
+        case .success(let words):
             for item in words {
                 languages[item.indexValue].words.removeValue(forKey: item.key)
                 guard updatingDataClass.settingData(languages: &languages) != nil else {
@@ -57,36 +54,33 @@ class DeleteData: DeletingProtocol {
                 }
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
             }
+            return .Success
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
-        return .Success
     }
 
-    func deleteWithLanguage(argLanguage: String, indexLanguage: Int?) -> ExitCodes {
-        guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
-            outputClass.printNotFoundLanguage()
-            return .UnknownLanguage
-        }
-        if let index = indexLanguage {
+    func deleteWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> ExitCodes {
+
+        switch indexLanguage {
+        case .success(let index):
             languages.remove(at: index)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
                 return .WriteError
             }
             outputClass.printDeleteLanguage(value: languagesKeys[index])
+            return .Success
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
-        return .Success
     }
 
-    func deleteWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> ExitCodes {
-        guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
-            outputClass.printNotFoundLanguage()
-            return .UnknownLanguage
-        }
-        guard searchCLass.checkKey(keys: keys, key: argKey) else {
-            outputClass.printNotFoundKey()
-            return .UnknownKey
-        }
-        if let deletingWord = item {
+    func deleteWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> ExitCodes {
+        switch item {
+        case .success(let deletingWord):
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
@@ -94,9 +88,9 @@ class DeleteData: DeletingProtocol {
             }
             outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
             return .Success
-        } else {
-            outputClass.printNotFoundWord()
-            return .UnknownWord
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
     }
 }
