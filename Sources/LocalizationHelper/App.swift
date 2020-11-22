@@ -34,7 +34,7 @@ class Container {
     }
 }
 
-public func app() -> Int {
+public func app() -> ExitCodes {
     let container = Container()
     let parser = container.argumentParser
     let arguments = container.argumentParser.parsing()
@@ -51,6 +51,6 @@ public func app() -> Int {
     case .delete(let key, let language):
         return deleter.startDeleting(key: key ?? nil, language: language ?? nil)
     default: parser.help()
-        return ExitCodes.HelpCode.rawValue
+        return ExitCodes.HelpCode
     }
 }

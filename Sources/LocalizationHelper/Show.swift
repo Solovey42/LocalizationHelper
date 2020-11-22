@@ -23,12 +23,12 @@ class ShowData: ShowingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startShowing(key: String?, language: String?) -> Int {
+    func startShowing(key: String?, language: String?) -> ExitCodes {
         if let languages = gettingDataClass.gettingData() {
             self.languages = languages
         } else {
             outputClass.printErrorRead()
-            return ExitCodes.ReadError.rawValue
+            return ExitCodes.ReadError
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -47,12 +47,12 @@ class ShowData: ShowingProtocol {
             let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
             return showWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
         } else {
-            return ExitCodes.ShowError.rawValue
+            return ExitCodes.ShowError
         }
     }
 
 
-    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> Int {
+    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> ExitCodes {
         for key in keys {
             outputClass.printWord(word: key)
             for item in items {
@@ -61,13 +61,13 @@ class ShowData: ShowingProtocol {
                 }
             }
         }
-        return ExitCodes.Success.rawValue
+        return ExitCodes.Success
     }
 
-    func showWithKey(argKey: String, key: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int {
+    func showWithKey(argKey: String, key: String, items: [(indexValue: Int, key: String, value: String)]?) -> ExitCodes {
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey.rawValue
+            return ExitCodes.UnknownKey
         }
         outputClass.printWord(word: key)
         if let words = items {
@@ -75,37 +75,37 @@ class ShowData: ShowingProtocol {
                 outputClass.printWithAllArg(key: languagesKeys[item.indexValue], value: item.value)
             }
         }
-        return ExitCodes.Success.rawValue
+        return ExitCodes.Success
     }
 
-    func showWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int {
+    func showWithLanguage(argLanguage: String, indexLanguage: Int?) -> ExitCodes {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage.rawValue
+            return ExitCodes.UnknownLanguage
         }
         if let index = indexLanguage {
             for (key, value) in languages[index].words {
                 outputClass.printWithAllArg(key: key, value: value)
             }
         }
-        return ExitCodes.Success.rawValue
+        return ExitCodes.Success
     }
 
-    func showWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int {
+    func showWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> ExitCodes {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage.rawValue
+            return ExitCodes.UnknownLanguage
         }
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey.rawValue
+            return ExitCodes.UnknownKey
         }
         if let word = item?.value {
             outputClass.printWord(word: word)
-            return ExitCodes.Success.rawValue
+            return ExitCodes.Success
         } else {
             outputClass.printNotFoundWord()
-            return ExitCodes.UnknownWord.rawValue
+            return ExitCodes.UnknownWord
         }
     }
 }

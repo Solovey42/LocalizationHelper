@@ -4,15 +4,15 @@
 
 import Foundation
 
-enum ExitCodes: Int {
-    case Success = 0
-    case HelpCode = 1
-    case UnknownLanguage = 2
-    case UnknownKey = 3
-    case UnknownWord = 4
-    case WriteError = 5
-    case ReadError = 6
-    case ShowError = 7
-    case DeleteError = 8
-    case UpdateError = 9
+public enum ExitCodes: Error {
+    case Success
+    case HelpCode
+    case UnknownLanguage
+    case UnknownKey
+    case UnknownWord
+    case WriteError
+    case ReadError
+    case ShowError
+    case DeleteError
+    case UpdateError
 }

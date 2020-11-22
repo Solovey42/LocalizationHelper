@@ -1,5 +1,5 @@
 import Foundation
 
 protocol UpdatingProtocol {
-    func startUpdating(key: String, language: String, word: String) -> Int
+    func startUpdating(key: String, language: String, word: String) -> ExitCodes
 }

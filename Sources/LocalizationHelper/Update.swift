@@ -18,12 +18,12 @@ class UpdateData: UpdatingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startUpdating(key: String, language: String, word: String) -> Int {
+    func startUpdating(key: String, language: String, word: String) -> ExitCodes {
         if let languages = gettingDataClass.gettingData() {
             self.languages = languages
         } else {
             outputClass.printErrorRead()
-            return ExitCodes.ReadError.rawValue
+            return ExitCodes.ReadError
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -31,11 +31,11 @@ class UpdateData: UpdatingProtocol {
 
         guard self.searchClass.checkLanguage(languagesKeys: languagesKeys, language: language) else {
             outputClass.printNotFoundLanguage()
-            return ExitCodes.UnknownLanguage.rawValue
+            return ExitCodes.UnknownLanguage
         }
         guard searchClass.checkKey(keys: keys, key: key) else {
             outputClass.printNotFoundKey()
-            return ExitCodes.UnknownKey.rawValue
+            return ExitCodes.UnknownKey
         }
 
         let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
@@ -43,15 +43,15 @@ class UpdateData: UpdatingProtocol {
             languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
             guard updatingDataClass.settingData(languages: &languages) != nil else {
                 outputClass.printErrorWrite()
-                return ExitCodes.WriteError.rawValue
+                return ExitCodes.WriteError
             }
             outputClass.printUpdate(value: updatingWord.value)
-            return ExitCodes.Success.rawValue
+            return ExitCodes.Success
         } else if item == nil {
             outputClass.printNotFoundWord()
-            return ExitCodes.UnknownWord.rawValue
+            return ExitCodes.UnknownWord
         } else {
-            return ExitCodes.UpdateError.rawValue
+            return ExitCodes.UpdateError
         }
     }
 }
