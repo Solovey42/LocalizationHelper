@@ -1,5 +1,5 @@
 import Foundation
 
 protocol GetDataProtocol {
-    func gettingData() -> [Language]?
+    func gettingData() -> Result<[Language],ExitCodes>
 }

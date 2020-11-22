@@ -19,11 +19,14 @@ class DeleteData: DeletingProtocol {
     }
 
     func startDeleting(key: String?, language: String?) -> ExitCodes {
-        if let languages = gettingDataClass.gettingData() {
+
+        let data = gettingDataClass.gettingData()
+        switch data {
+        case .success(let languages):
             self.languages = languages
-        } else {
-            outputClass.printErrorRead()
-            return ExitCodes.ReadError
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
 
         self.keys = getterStrings.getKeys(languages: languages)

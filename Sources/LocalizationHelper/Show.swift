@@ -24,11 +24,13 @@ class ShowData: ShowingProtocol {
     }
 
     func startShowing(key: String?, language: String?) -> ExitCodes {
-        if let languages = gettingDataClass.gettingData() {
+        let data = gettingDataClass.gettingData()
+        switch data {
+        case .success(let languages):
             self.languages = languages
-        } else {
-            outputClass.printErrorRead()
-            return .ReadError
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
