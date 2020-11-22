@@ -15,16 +15,22 @@ class SearchData: SearchingProtocol {
         return array
     }
 
-    func searchWithLanguage(languagesKeys: [String], language: String, languages: [Language]) -> Int? {
+    func searchWithLanguage(languagesKeys: [String], language: String, languages: [Language]) -> Result<Int, ExitCodes> {
+        guard checkLanguage(languagesKeys: languagesKeys, language: language) else {
+            return .failure(.UnknownLanguage)
+        }
         for i in 0...languages.count - 1 {
             if languages[i].key == language {
-                return i
+                return Result.success(i)
             }
         }
-        return nil
+        return .failure(.UnknownLanguage)
     }
 
-    func searchWithKey(keys: [String], key: String, languages: [Language]) -> [(indexValue: Int, key: String, value: String)]? {
+    func searchWithKey(keys: [String], key: String, languages: [Language]) -> Result<[(indexValue: Int, key: String, value: String)], ExitCodes> {
+        guard checkKey(keys: keys, key: key) else {
+            return .failure(.UnknownKey)
+        }
         var array: [(Int, String, String)] = []
         for i in 0...languages.count - 1 {
             if languages[i].words.keys.contains(key) {
@@ -34,17 +40,23 @@ class SearchData: SearchingProtocol {
                 }
             }
         }
-        return array
+        return .success(array)
     }
 
-    func searchWitAllArg(languagesKeys: [String], language: String, languages: [Language], key: String) -> (indexValue: Int, key: String, value: String)? {
+    func searchWitAllArg(keys: [String], languagesKeys: [String], language: String, languages: [Language], key: String) -> Result<(indexValue: Int, key: String, value: String), ExitCodes> {
+        guard checkLanguage(languagesKeys: languagesKeys, language: language) else {
+            return .failure(.UnknownLanguage)
+        }
+        guard checkKey(keys: keys, key: key) else {
+            return .failure(.UnknownKey)
+        }
         for i in 0...languages.count - 1 {
             for (wordKey, value) in languages[i].words
                 where wordKey == key && languages[i].key == language {
-                return (i, key, value)
+                return .success((i, key, value))
             }
         }
-        return nil
+        return .failure(.UnknownWord)
     }
 
     func checkLanguage(languagesKeys: [String], language: String) -> Bool {
