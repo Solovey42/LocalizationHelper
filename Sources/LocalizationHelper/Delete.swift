@@ -51,8 +51,10 @@ class DeleteData: DeletingProtocol {
         case .success(let words):
             for item in words {
                 languages[item.indexValue].words.removeValue(forKey: item.key)
-                guard updatingDataClass.settingData(languages: &languages) != nil else {
-                    outputClass.printErrorWrite()
+                do {
+                    try updatingDataClass.settingData(languages: &languages)
+                } catch {
+                    outputClass.printError(error: ExitCodes.WriteError)
                     return .WriteError
                 }
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
@@ -69,8 +71,10 @@ class DeleteData: DeletingProtocol {
         switch indexLanguage {
         case .success(let index):
             languages.remove(at: index)
-            guard updatingDataClass.settingData(languages: &languages) != nil else {
-                outputClass.printErrorWrite()
+            do {
+                try updatingDataClass.settingData(languages: &languages)
+            } catch {
+                outputClass.printError(error: ExitCodes.WriteError)
                 return .WriteError
             }
             outputClass.printDeleteLanguage(value: languagesKeys[index])
@@ -85,8 +89,10 @@ class DeleteData: DeletingProtocol {
         switch item {
         case .success(let deletingWord):
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
-            guard updatingDataClass.settingData(languages: &languages) != nil else {
-                outputClass.printErrorWrite()
+            do {
+                try updatingDataClass.settingData(languages: &languages)
+            } catch {
+                outputClass.printError(error: ExitCodes.WriteError)
                 return .WriteError
             }
             outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)

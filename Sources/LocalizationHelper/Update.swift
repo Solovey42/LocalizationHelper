@@ -35,8 +35,10 @@ class UpdateData: UpdatingProtocol {
         switch item {
         case .success(let updatingWord):
             languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
-            guard updatingDataClass.settingData(languages: &languages) != nil else {
-                outputClass.printErrorWrite()
+            do {
+                try updatingDataClass.settingData(languages: &languages)
+            } catch {
+                outputClass.printError(error: ExitCodes.WriteError)
                 return .WriteError
             }
             outputClass.printUpdate(value: updatingWord.value)
