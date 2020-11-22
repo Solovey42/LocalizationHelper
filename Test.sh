@@ -7,7 +7,7 @@ function test() {
     params=$2
     expected_status=$3
 
-    ./.build/debug/LocalizationHelper $params
+    ./.build/debug/Run $params
     actual_status=$?
 
     if [ $actual_status -eq $expected_status ]
