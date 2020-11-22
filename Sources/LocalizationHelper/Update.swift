@@ -45,9 +45,11 @@ class UpdateData: UpdatingProtocol {
             }
             outputClass.printUpdate(value: updatingWord.value)
             return ExitCodes.Success.rawValue
-        } else {
+        } else if item == nil {
             outputClass.printNotFoundWord()
             return ExitCodes.UnknownWord.rawValue
+        } else {
+            return ExitCodes.UpdateError.rawValue
         }
         return ExitCodes.UpdateError.rawValue
     }
