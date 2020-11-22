@@ -34,7 +34,7 @@ class Container {
     }
 }
 
-func app() -> Int {
+public func app() -> Int {
     let container = Container()
     let parser = container.argumentParser
     let arguments = container.argumentParser.parsing()
