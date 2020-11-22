@@ -11,9 +11,4 @@ protocol OutputProtocol {
     func printDeleteLanguage(value: String)
     func printDeleteWord(key: String, value: String)
     func printError(error: ExitCodes)
-    func printNotFoundWord()
-    func printNotFoundKey()
-    func printNotFoundLanguage()
-    func printErrorWrite()
-    func printErrorRead()
 }
