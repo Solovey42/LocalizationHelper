@@ -23,7 +23,7 @@ class ShowData: ShowingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startShowing(key: String?, language: String?) -> Int32 {
+    func startShowing(key: String?, language: String?) -> Int {
         if let languages = gettingDataClass.gettingData() {
             self.languages = languages
         } else {
@@ -52,7 +52,7 @@ class ShowData: ShowingProtocol {
     }
 
 
-    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> Int32 {
+    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> Int {
         for key in keys {
             outputClass.printWord(word: key)
             for item in items {
@@ -64,7 +64,7 @@ class ShowData: ShowingProtocol {
         return ExitCodes.Success.rawValue
     }
 
-    func showWithKey(argKey: String, key: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int32 {
+    func showWithKey(argKey: String, key: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int {
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             return ExitCodes.UnknownKey.rawValue
         }
@@ -77,7 +77,7 @@ class ShowData: ShowingProtocol {
         return ExitCodes.Success.rawValue
     }
 
-    func showWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int32 {
+    func showWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             return ExitCodes.UnknownLanguage.rawValue
         }
@@ -89,7 +89,7 @@ class ShowData: ShowingProtocol {
         return ExitCodes.Success.rawValue
     }
 
-    func showWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int32 {
+    func showWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             return ExitCodes.UnknownLanguage.rawValue
         }

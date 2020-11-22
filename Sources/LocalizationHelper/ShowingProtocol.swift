@@ -5,6 +5,6 @@
 import Foundation
 
 protocol ShowingProtocol {
-    func startShowing( key: String?, language: String?) -> Int32
+    func startShowing( key: String?, language: String?) -> Int
 
 }

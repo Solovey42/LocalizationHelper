@@ -3,6 +3,7 @@
 //
 
 import Foundation
+
 class Container {
     var argumentParser: ArgumentsParserProtocol {
         ArgumentParser()
@@ -33,7 +34,7 @@ class Container {
     }
 }
 
-func app() -> Int32 {
+func app() -> Int {
     let container = Container()
     let parser = container.argumentParser
     let arguments = container.argumentParser.parsing()

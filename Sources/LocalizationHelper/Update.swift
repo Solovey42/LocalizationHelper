@@ -18,7 +18,7 @@ class UpdateData: UpdatingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startUpdating(key: String, language: String, word: String) -> Int32 {
+    func startUpdating(key: String, language: String, word: String) -> Int {
         if let languages = gettingDataClass.gettingData() {
             self.languages = languages
         } else {
@@ -51,6 +51,5 @@ class UpdateData: UpdatingProtocol {
         } else {
             return ExitCodes.UpdateError.rawValue
         }
-        return ExitCodes.UpdateError.rawValue
     }
 }

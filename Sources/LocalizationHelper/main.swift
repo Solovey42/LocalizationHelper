@@ -1,4 +1,4 @@
 import Foundation
-
-exit(app())
+let exitCode = app()
+exit(Int32(exitCode))
 

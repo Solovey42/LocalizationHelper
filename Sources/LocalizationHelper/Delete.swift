@@ -18,7 +18,7 @@ class DeleteData: DeletingProtocol {
         self.searchCLass = searchingClass
     }
 
-    func startDeleting(key: String?, language: String?) -> Int32 {
+    func startDeleting(key: String?, language: String?) -> Int {
         if let languages = gettingDataClass.gettingData() {
             self.languages = languages
         } else {
@@ -43,7 +43,7 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithKey(argKey: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int32 {
+    func deleteWithKey(argKey: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int {
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
             return ExitCodes.UnknownKey.rawValue
         }
@@ -60,7 +60,7 @@ class DeleteData: DeletingProtocol {
         return ExitCodes.Success.rawValue
     }
 
-    func deleteWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int32 {
+    func deleteWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             return ExitCodes.UnknownLanguage.rawValue
         }
@@ -75,7 +75,7 @@ class DeleteData: DeletingProtocol {
         return ExitCodes.Success.rawValue
     }
 
-    func deleteWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int32 {
+    func deleteWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
             return ExitCodes.UnknownLanguage.rawValue
         }

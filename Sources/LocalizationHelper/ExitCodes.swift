@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum ExitCodes: Int32 {
+enum ExitCodes: Int {
     case Success = 0
     case HelpCode = 1
     case UnknownLanguage = 2
