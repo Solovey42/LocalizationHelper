@@ -8,7 +8,7 @@ class SearchDataTest: XCTestCase {
         search = SearchData()
     }
 
-    func searchWithOutArgTest() throws {
+    func testSearchWithOutArg() throws {
         let result = search.searchWithOutArg(keys: ["hello", "day"], languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])])
         let expectedResult = [(key: "hello", languageKey: "rus", value: "Привет"), (key: "day", languageKey: "pt", value: "Dia")]
 
@@ -17,7 +17,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(result[0].value, expectedResult[0].value)
     }
 
-    func searchWithLanguage() throws {
+    func testSearchWithLanguage() throws {
         let result = search.searchWithLanguage(languagesKeys: ["rus", "eng"], language: "rus", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])])
         let expectedResult = 0
 
@@ -28,7 +28,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-    func searchWithLanguageFail() throws {
+    func testSearchWithLanguageFail() throws {
         let result = search.searchWithLanguage(languagesKeys: ["rus", "eng"], language: "Pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])])
         let expectedResult = ExitCodes.UnknownLanguage
 
@@ -39,7 +39,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-    func searchWithKey() throws {
+    func testSearchWithKey() throws {
         let result = search.searchWithKey(keys: ["hello", "day"], key: "day", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])])
         let expectedResult = [(indexValue: 1, key: "hello", value: "Привет")]
 
@@ -52,7 +52,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value[0].value, value[0].value)
     }
 
-    func searchWithKeyFail() throws {
+    func testSearchWithKeyFail() throws {
         let result = search.searchWithKey(keys: ["hello", "day"], key: "ddd", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])])
         let expectedResult = ExitCodes.UnknownKey
 
@@ -63,7 +63,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-    func searchWitAllArg() throws {
+    func testSearchWitAllArg() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "day")
         let expectedResult = (indexValue: 1, key: "hello", value: "Привет")
         guard case Result.success(let value) = result else {
@@ -75,7 +75,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value.value, value.value)
     }
 
-    func searchWitAllArgFailKey() throws {
+    func testSearchWitAllArgFailKey() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "ddd")
         let expectedResult = ExitCodes.UnknownKey
         guard case Result.failure(let value) = result else {
@@ -85,7 +85,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-    func searchWitAllArgFailLanguage() throws {
+    func testSearchWitAllArgFailLanguage() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "ddd", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "day")
         let expectedResult = ExitCodes.UnknownLanguage
         guard case Result.failure(let value) = result else {
@@ -95,7 +95,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-    func searchWitAllArgFailWord() throws {
+    func testSearchWitAllArgFailWord() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "hello")
         let expectedResult = ExitCodes.UnknownWord
         guard case Result.failure(let value) = result else {
@@ -106,14 +106,14 @@ class SearchDataTest: XCTestCase {
     }
 
     static var allTests = [
-        ("searchWithOutArgTest", searchWithOutArgTest),
-        ("searchWithLanguage", searchWithLanguage),
-        ("searchWithLanguageFail", searchWithLanguageFail),
-        ("searchWithKey", searchWithKey),
-        ("searchWithKeyFail", searchWithKeyFail),
-        ("searchWitAllArg", searchWitAllArg),
-        ("searchWitAllArgFailKey", searchWitAllArgFailKey),
-        ("searchWitAllArgFailLanguage", searchWitAllArgFailLanguage),
-        ("searchWitAllArgFailWord", searchWitAllArgFailWord)
+        ("testSearchWithOutArgTest", testSearchWithOutArg),
+        ("testSearchWithLanguage", testSearchWithLanguage),
+        ("testSearchWithLanguageFail", testSearchWithLanguageFail),
+        ("testSearchWithKey", testSearchWithKey),
+        ("testSearchWithKeyFail", testSearchWithKeyFail),
+        ("testSearchWitAllArg", testSearchWitAllArg),
+        ("testSearchWitAllArgFailKey", testSearchWitAllArgFailKey),
+        ("testSearchWitAllArgFailLanguage", testSearchWitAllArgFailLanguage),
+        ("testSearchWitAllArgFailWord", testSearchWitAllArgFailWord)
     ]
 }
