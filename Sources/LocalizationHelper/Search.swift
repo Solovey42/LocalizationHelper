@@ -16,7 +16,7 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWithLanguage(languagesKeys: [String], language: String, languages: [Language]) -> Result<Int, ExitCodes> {
-        guard checkLanguage(languagesKeys: languagesKeys, language: language) else {
+        guard languagesKeys.contains(language) else {
             return .failure(.UnknownLanguage)
         }
         for i in 0...languages.count - 1 {
@@ -28,7 +28,7 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWithKey(keys: [String], key: String, languages: [Language]) -> Result<[(indexValue: Int, key: String, value: String)], ExitCodes> {
-        guard checkKey(keys: keys, key: key) else {
+        guard keys.contains(key) else {
             return .failure(.UnknownKey)
         }
         var array: [(Int, String, String)] = []
@@ -44,10 +44,10 @@ class SearchData: SearchingProtocol {
     }
 
     func searchWitAllArg(keys: [String], languagesKeys: [String], language: String, languages: [Language], key: String) -> Result<(indexValue: Int, key: String, value: String), ExitCodes> {
-        guard checkLanguage(languagesKeys: languagesKeys, language: language) else {
+        guard languagesKeys.contains(language) else {
             return .failure(.UnknownLanguage)
         }
-        guard checkKey(keys: keys, key: key) else {
+        guard keys.contains(key) else {
             return .failure(.UnknownKey)
         }
         for i in 0...languages.count - 1 {
