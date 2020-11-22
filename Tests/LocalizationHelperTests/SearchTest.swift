@@ -74,6 +74,7 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value.key, value.key)
         XCTAssertEqual(value.value, value.value)
     }
+
     func searchWitAllArgFailKey() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "ddd")
         let expectedResult = ExitCodes.UnknownKey
@@ -83,6 +84,7 @@ class SearchDataTest: XCTestCase {
         }
         XCTAssertEqual(value, expectedResult)
     }
+
     func searchWitAllArgFailLanguage() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "ddd", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "day")
         let expectedResult = ExitCodes.UnknownLanguage
@@ -92,6 +94,7 @@ class SearchDataTest: XCTestCase {
         }
         XCTAssertEqual(value, expectedResult)
     }
+
     func searchWitAllArgFailWord() throws {
         let result = search.searchWitAllArg(keys: ["hello", "day"], languagesKeys: ["rus", "pt"], language: "pt", languages: [Language(key: "rus", words: ["hello": "Привет", ]), Language(key: "pt", words: ["day": "Dia"])], key: "hello")
         let expectedResult = ExitCodes.UnknownWord
@@ -102,8 +105,6 @@ class SearchDataTest: XCTestCase {
         XCTAssertEqual(value, expectedResult)
     }
 
-
-
     static var allTests = [
         ("searchWithOutArgTest", searchWithOutArgTest),
         ("searchWithLanguage", searchWithLanguage),
@@ -111,8 +112,8 @@ class SearchDataTest: XCTestCase {
         ("searchWithKey", searchWithKey),
         ("searchWithKeyFail", searchWithKeyFail),
         ("searchWitAllArg", searchWitAllArg),
-        ("searchWitAllArgFailKey",searchWitAllArgFailKey),
-        ("searchWitAllArgFailLanguage",searchWitAllArgFailLanguage),
-        ("searchWitAllArgFailWord",searchWitAllArgFailWord)
+        ("searchWitAllArgFailKey", searchWitAllArgFailKey),
+        ("searchWitAllArgFailLanguage", searchWitAllArgFailLanguage),
+        ("searchWitAllArgFailWord", searchWitAllArgFailWord)
     ]
 }
