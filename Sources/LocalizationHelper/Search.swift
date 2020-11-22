@@ -1,11 +1,6 @@
 import Foundation
 
 class SearchData: SearchingProtocol {
-    var outputClass: OutputProtocol
-
-    init(outputClass: OutputProtocol) {
-        self.outputClass = outputClass
-    }
 
     func searchWithOutArg(keys: [String], languages: [Language]) -> [(key: String, languageKey: String, value: String)] {
         var array: [(String, String, String)] = []
@@ -54,7 +49,6 @@ class SearchData: SearchingProtocol {
 
     func checkLanguage(languagesKeys: [String], language: String) -> Bool {
         guard languagesKeys.contains(language) else {
-            outputClass.printNotFoundLanguage()
             return false
         }
         return true
@@ -62,7 +56,6 @@ class SearchData: SearchingProtocol {
 
     func checkKey(keys: [String], key: String) -> Bool {
         guard keys.contains(key) else {
-            outputClass.printNotFoundKey()
             return false
         }
         return true

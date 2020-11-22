@@ -15,7 +15,7 @@ class Container {
         JsonSetter()
     }
     var search: SearchingProtocol {
-        SearchData(outputClass: output)
+        SearchData()
     }
     var update: UpdatingProtocol {
         UpdateData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)

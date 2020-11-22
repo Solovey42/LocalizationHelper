@@ -30,9 +30,11 @@ class UpdateData: UpdatingProtocol {
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         guard self.searchClass.checkLanguage(languagesKeys: languagesKeys, language: language) else {
+            outputClass.printNotFoundLanguage()
             return ExitCodes.UnknownLanguage.rawValue
         }
         guard searchClass.checkKey(keys: keys, key: key) else {
+            outputClass.printNotFoundKey()
             return ExitCodes.UnknownKey.rawValue
         }
 

@@ -66,6 +66,7 @@ class ShowData: ShowingProtocol {
 
     func showWithKey(argKey: String, key: String, items: [(indexValue: Int, key: String, value: String)]?) -> Int {
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
+            outputClass.printNotFoundKey()
             return ExitCodes.UnknownKey.rawValue
         }
         outputClass.printWord(word: key)
@@ -79,6 +80,7 @@ class ShowData: ShowingProtocol {
 
     func showWithLanguage(argLanguage: String, indexLanguage: Int?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
+            outputClass.printNotFoundLanguage()
             return ExitCodes.UnknownLanguage.rawValue
         }
         if let index = indexLanguage {
@@ -91,9 +93,11 @@ class ShowData: ShowingProtocol {
 
     func showWithAllArg(argLanguage: String, argKey: String, item: (indexValue: Int, key: String, value: String)?) -> Int {
         guard searchCLass.checkLanguage(languagesKeys: languagesKeys, language: argLanguage) else {
+            outputClass.printNotFoundLanguage()
             return ExitCodes.UnknownLanguage.rawValue
         }
         guard searchCLass.checkKey(keys: keys, key: argKey) else {
+            outputClass.printNotFoundKey()
             return ExitCodes.UnknownKey.rawValue
         }
         if let word = item?.value {
