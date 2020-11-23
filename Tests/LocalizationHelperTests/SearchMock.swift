@@ -3,7 +3,7 @@ import Foundation
 
 class SearchDataMock: SearchingProtocol {
 
-    var searchWithOutArgParameters: ([String], [Language])!
+    var searchWithOutArgParameters: (keys: [String], languages: [Language])!
     var searchWithOutArgCallsCount = 0
     var searchWithOutArgResult: [(String, String, String)]!
 
@@ -13,7 +13,7 @@ class SearchDataMock: SearchingProtocol {
         return searchWithOutArgResult
     }
 
-    var searchWithLanguageParameters: ([String], String, [Language])!
+    var searchWithLanguageParameters: (languagesKeys: [String], language: String, languages: [Language])!
     var searchWithLanguageCallsCount = 0
     var searchWithLanguageResult: Result<Int, ExitCodes>!
 
@@ -23,7 +23,7 @@ class SearchDataMock: SearchingProtocol {
         return searchWithLanguageResult
     }
 
-    var searchWithKeyParameters: ([String], String, [Language])!
+    var searchWithKeyParameters: (keys: [String], key: String, languages: [Language])!
     var searchWithKeyCallsCount = 0
     var searchWithKeyResult: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>!
 
@@ -33,7 +33,7 @@ class SearchDataMock: SearchingProtocol {
         return searchWithKeyResult
     }
 
-    var searchWitAllArgParameters: ([String], [String], String, [Language], String)!
+    var searchWitAllArgParameters: (keys: [String], languagesKeys: [String], language: String, languages: [Language], key: String)!
     var searchWitAllArgCallsCount = 0
     var searchWitAllArgResult: Result<(indexValue: Int, key: String, value: String), ExitCodes>!
 
