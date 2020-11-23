@@ -37,7 +37,7 @@ class Container {
 public func app() -> ExitCodes {
     let container = Container()
     let parser = container.argumentParser
-    let arguments = container.argumentParser.parsing()
+    let arguments = container.argumentParser.parsing(nil)
 
     let show = container.show
     let deleter = container.delete

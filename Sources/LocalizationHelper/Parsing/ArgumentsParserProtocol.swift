@@ -1,7 +1,7 @@
 import Foundation
 
 protocol ArgumentsParserProtocol {
-    func parsing() -> Commands?
+    func parsing(_ arguments: [String]?) -> Commands?
     func help()
 }
 
