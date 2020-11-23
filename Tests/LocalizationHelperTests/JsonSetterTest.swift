@@ -10,11 +10,17 @@ class JsonSetterTest: XCTestCase {
         getData = JsonGetter()
     }
 
-    func testSettingData() throws {
+    func testSettingData() {
         var languages = [Language(key: "rus", words: ["hello": "Привет"])]
         let updatingValue = "Ку"
+
         languages[0].words.updateValue(updatingValue, forKey: "hello")
-        try setData.settingData(languages: &languages)
+        do {
+            try setData.settingData(languages: &languages)
+        } catch {
+            XCTFail("Data not saved ")
+        }
+
         let result = getData.gettingData()
         guard case Result.success(let languageUpdated) = result else {
             XCTFail("No data received")
