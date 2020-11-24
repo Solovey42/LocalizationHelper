@@ -8,14 +8,14 @@ class DeleteData: DeletingProtocol {
     var keys: [String] = []
     var languagesKeys: [String] = []
     var outputClass: OutputProtocol
-    var searchCLass: SearchingProtocol
+    var searchClass: SearchingProtocol
 
     init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
         self.gettingDataClass = gettingDataClass
         self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
         self.outputClass = outputClass
-        self.searchCLass = searchingClass
+        self.searchClass = searchingClass
     }
 
     func startDeleting(key: String?, language: String?) -> ExitCodes {
@@ -33,13 +33,13 @@ class DeleteData: DeletingProtocol {
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         if let argLanguage = language, let argKey = key {
-            let word = searchCLass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+            let word = searchClass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
             return deleteWithAllArg(argLanguage: argLanguage, argKey: argKey, item: word)
         } else if let argKey = key {
-            let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
+            let words = searchClass.searchWithKey(keys: keys, key: argKey, languages: languages)
             return deleteWithKey(argKey: argKey, items: words)
         } else if let argLanguage = language {
-            let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
+            let indexLanguage = searchClass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
             return deleteWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
         } else {
             return .DeleteError
