@@ -8,14 +8,14 @@ class DeleteData: DeletingProtocol {
     var keys: [String] = []
     var languagesKeys: [String] = []
     var outputClass: OutputProtocol
-    var searchCLass: SearchingProtocol
+    var searchClass: SearchingProtocol
 
     init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
         self.gettingDataClass = gettingDataClass
         self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
         self.outputClass = outputClass
-        self.searchCLass = searchingClass
+        self.searchClass = searchingClass
     }
 
     func startDeleting(key: String?, language: String?) throws {
@@ -24,15 +24,13 @@ class DeleteData: DeletingProtocol {
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         if let argLanguage = language, let argKey = key {
-            let word = searchCLass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
+            let word = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
             deleteWithAllArg(item: word)
-        } else if
-                let argKey = key {
-            let words = searchCLass.searchWithKey(keys: keys, key: argKey, languages: languages)
+        } else if let argKey = key {
+            let words = searchClass.searchWithKey(keys: keys, key: argKey, languages: languages)
             deleteWithKey(items: words)
-        } else if
-                let argLanguage = language {
-            let indexLanguage = searchCLass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
+        } else if let argLanguage = language {
+            let indexLanguage = searchClass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
             deleteWithLanguage(indexLanguage: indexLanguage)
         }
         try updatingDataClass.settingData(languages: &languages)
