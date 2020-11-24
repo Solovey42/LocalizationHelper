@@ -1,6 +1,11 @@
+//
+// Created by solo on 16.11.2020.
+//
+
 import Foundation
 
-class DeleteData: DeletingProtocol {
+class ShowData: ShowingProtocol {
+
     var languages: [Language] = []
     var gettingDataClass: GetDataProtocol
     var updatingDataClass: SetDataProtocol
@@ -18,8 +23,7 @@ class DeleteData: DeletingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startDeleting(key: String?, language: String?) -> ExitCodes {
-
+    func startShowing(key: String?, language: String?) -> ExitCodes {
         let data = gettingDataClass.gettingData()
         switch data {
         case .success(let languages):
@@ -32,32 +36,41 @@ class DeleteData: DeletingProtocol {
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        if let argLanguage = language, let argKey = key {
+        if language == nil && key == nil {
+            let words = searchClass.searchWithOutArg(keys: keys, languages: languages)
+            return showWithOutArg(items: words)
+        } else if let argLanguage = language, let argKey = key {
             let word = searchClass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
-            return deleteWithAllArg(argLanguage: argLanguage, argKey: argKey, item: word)
+            return showWithAllArg(argLanguage: argLanguage, argKey: argKey, item: word)
         } else if let argKey = key {
             let words = searchClass.searchWithKey(keys: keys, key: argKey, languages: languages)
-            return deleteWithKey(argKey: argKey, items: words)
+            return showWithKey(argKey: argKey, key: argKey, items: words)
         } else if let argLanguage = language {
             let indexLanguage = searchClass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
-            return deleteWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
+            return showWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
         } else {
-            return .DeleteError
+            return ExitCodes.ShowError
         }
     }
 
-    func deleteWithKey(argKey: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> ExitCodes {
+
+    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> ExitCodes {
+        for key in keys {
+            outputClass.printWord(word: key)
+            for item in items {
+                if key == item.key {
+                    outputClass.printWithAllArg(key: item.languageKey, value: item.value)
+                }
+            }
+        }
+        return .Success
+    }
+
+    func showWithKey(argKey: String, key: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> ExitCodes {
         switch items {
         case .success(let words):
             for item in words {
-                languages[item.indexValue].words.removeValue(forKey: item.key)
-                do {
-                    try updatingDataClass.settingData(languages: &languages)
-                } catch {
-                    outputClass.printError(error: ExitCodes.WriteError)
-                    return .WriteError
-                }
-                outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
+                outputClass.printWithAllArg(key: languagesKeys[item.indexValue], value: item.value)
             }
             return .Success
         case .failure(let error):
@@ -66,18 +79,12 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> ExitCodes {
-
+    func showWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> ExitCodes {
         switch indexLanguage {
         case .success(let index):
-            languages.remove(at: index)
-            do {
-                try updatingDataClass.settingData(languages: &languages)
-            } catch {
-                outputClass.printError(error: ExitCodes.WriteError)
-                return .WriteError
+            for (key, value) in languages[index].words {
+                outputClass.printWithAllArg(key: key, value: value)
             }
-            outputClass.printDeleteLanguage(value: languagesKeys[index])
             return .Success
         case .failure(let error):
             outputClass.printError(error: error)
@@ -85,17 +92,10 @@ class DeleteData: DeletingProtocol {
         }
     }
 
-    func deleteWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> ExitCodes {
+    func showWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> ExitCodes {
         switch item {
-        case .success(let deletingWord):
-            languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
-            do {
-                try updatingDataClass.settingData(languages: &languages)
-            } catch {
-                outputClass.printError(error: ExitCodes.WriteError)
-                return .WriteError
-            }
-            outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
+        case .success(let word):
+            outputClass.printWord(word: word.value)
             return .Success
         case .failure(let error):
             outputClass.printError(error: error)

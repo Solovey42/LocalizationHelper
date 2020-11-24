@@ -1,24 +1,51 @@
-//
-// Created by solo on 29.10.2020.
-//
-
 import Foundation
 
-func update(languages: inout [Language], process: ProcessArgs, path: String) throws {
-    let languagesKeys = getLanguagesKeys(languages: languages)
-    guard languagesKeys.contains(process.language) else {
-        print("Not Found")
-        exit(0)
+class UpdateData: UpdatingProtocol {
+    var languages: [Language] = []
+    var gettingDataClass: GetDataProtocol
+    var updatingDataClass: SetDataProtocol
+    var getterStrings: GetStringKeysProtocol
+    var keys: [String] = []
+    var languagesKeys: [String] = []
+    var outputClass: OutputProtocol
+    var searchClass: SearchingProtocol
+
+    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+        self.gettingDataClass = gettingDataClass
+        self.updatingDataClass = updatingDataClass
+        self.getterStrings = getterStrings
+        self.outputClass = outputClass
+        self.searchClass = searchingClass
     }
-    for i in 0...languages.count - 1 {
-        for (key, value) in languages[i].words
-            where key == process.key && languages[i].key == process.language {
-            languages[i].words.updateValue(process.word, forKey: key)
-            let json = try JSONEncoder().encode(languages.self)
-            try json.write(to: URL(fileURLWithPath: path))
-            print("Word \(value) was updated")
-            exit(0)
+
+    func startUpdating(key: String, language: String, word: String) -> ExitCodes {
+        let data = gettingDataClass.gettingData()
+        switch data {
+        case .success(let languages):
+            self.languages = languages
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
+        }
+
+        self.keys = getterStrings.getKeys(languages: languages)
+        self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
+
+        let item = searchClass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: language, languages: languages, key: key)
+        switch item {
+        case .success(let updatingWord):
+            languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
+            do {
+                try updatingDataClass.settingData(languages: &languages)
+            } catch {
+                outputClass.printError(error: ExitCodes.WriteError)
+                return .WriteError
+            }
+            outputClass.printUpdate(value: updatingWord.value)
+            return .Success
+        case .failure(let error):
+            outputClass.printError(error: error)
+            return error
         }
     }
-    print("Not found")
 }
