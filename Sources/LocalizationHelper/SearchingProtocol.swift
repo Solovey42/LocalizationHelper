@@ -1,7 +1,6 @@
 import Foundation
 
 protocol SearchingProtocol {
-    var outputClass: OutputProtocol { get set }
     //func search(command: String, key: String, language: String, word: String) throws
     func searchWithOutArg(keys: [String], languages: [Language]) -> [(key: String, languageKey: String, value: String)]
     func searchWithLanguage(languagesKeys: [String], language: String, languages: [Language]) ->  Int?
