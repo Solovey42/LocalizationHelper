@@ -1,6 +1,11 @@
+//
+// Created by solo on 16.11.2020.
+//
+
 import Foundation
 
-class DeleteData: DeletingProtocol {
+class ShowData: ShowingProtocol {
+
     var languages: [Language] = []
     var gettingDataClass: GetDataProtocol
     var updatingDataClass: SetDataProtocol
@@ -18,44 +23,58 @@ class DeleteData: DeletingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startDeleting(key: String?, language: String?) throws {
+    func startShowing(key: String?, language: String?) throws {
         self.languages = try gettingDataClass.gettingData()
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
-        if let argLanguage = language, let argKey = key {
+        if language == nil && key == nil {
+            let words = searchClass.searchWithOutArg(keys: keys, languages: languages)
+            showWithOutArg(items: words)
+        } else if let argLanguage = language, let argKey = key {
             let word = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
-            deleteWithAllArg(item: word)
+            showWithAllArg(item: word)
         } else if let argKey = key {
             let words = searchClass.searchWithKey(keys: keys, key: argKey, languages: languages)
-            deleteWithKey(items: words)
+            showWithKey(key: argKey, items: words)
         } else if let argLanguage = language {
             let indexLanguage = searchClass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
-            deleteWithLanguage(indexLanguage: indexLanguage)
+            showWithLanguage(indexLanguage: indexLanguage)
         }
-        try updatingDataClass.settingData(languages: &languages)
     }
 
-    func deleteWithKey(items: [(indexValue: Int, key: String, value: String)]?) {
-        if let words = items {
-            for item in words {
-                languages[item.indexValue].words.removeValue(forKey: item.key)
-                outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
+
+    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) {
+        for key in keys {
+            outputClass.printWord(word: key)
+            for item in items {
+                if key == item.key {
+                    outputClass.printWithAllArg(key: item.languageKey, value: item.value)
+                }
             }
         }
     }
 
-    func deleteWithLanguage(indexLanguage: Int?) {
-        if let index = indexLanguage {
-            languages.remove(at: index)
-            outputClass.printDeleteLanguage(value: languagesKeys[index])
+    func showWithKey(key: String, items: [(indexValue: Int, key: String, value: String)]?) {
+        outputClass.printWord(word: key)
+        if let words = items {
+            for item in words {
+                outputClass.printWithAllArg(key: languagesKeys[item.indexValue], value: item.value)
+            }
         }
     }
 
-    func deleteWithAllArg(item: (indexValue: Int, key: String, value: String)?) {
-        if let deletingWord = item {
-            languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
-            outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
+    func showWithLanguage(indexLanguage: Int?) {
+        if let index = indexLanguage {
+            for (key, value) in languages[index].words {
+                outputClass.printWithAllArg(key: key, value: value)
+            }
+        }
+    }
+
+    func showWithAllArg(item: (indexValue: Int, key: String, value: String)?) {
+        if let word = item?.value {
+            outputClass.printWord(word: word)
         }
     }
 

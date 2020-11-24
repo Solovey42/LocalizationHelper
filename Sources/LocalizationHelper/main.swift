@@ -1,69 +1,61 @@
 import Foundation
-import ArgumentParser
 
-struct Arguments: ParsableCommand {
-    static var configuration = CommandConfiguration(
-            abstract: "A program for translate words.",
-            subcommands: [Search.self, Update.self, Delete.self])
-}
-extension Arguments{
-    struct Options: ParsableArguments {
-        @Option(name: .shortAndLong, help: "The word to translate into.") var key: String = ""
-        @Option(name: .shortAndLong, help: "Language into which we translate") var language: String = ""
+class Container {
+    var argumentParser: ArgumentsParserProtocol {
+        ArgumentParser()
     }
-
-    struct Search: ParsableCommand{
-        @OptionGroup
-        var options: Arguments.Options
-        static var configuration = CommandConfiguration(
-                commandName: "search",
-                abstract: "Start search")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "search", stringKey: options.key, stringLanguage: options.language)
-            try search(languages: &lang, process: process, path: path)
-        }
-
+    var getData: GetDataProtocol {
+        JsonGetter()
     }
-
-    struct Update: ParsableCommand{
-        @OptionGroup
-        var options: Arguments.Options
-        @Argument
-        var word: String
-        static var configuration = CommandConfiguration(
-                commandName: "update",
-                abstract: "Update selected item.")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "update", stringWord: word,stringKey: options.key, stringLanguage: options.language)
-            try update(languages: &lang, process: process, path: path)
-            }
-        }
+    var setData: SetDataProtocol {
+        JsonSetter()
     }
-
-    struct Delete: ParsableCommand {
-        @OptionGroup
-        var options: Arguments.Options
-        static var configuration = CommandConfiguration(
-                commandName: "delete",
-                abstract: "Delete selected item.")
-        func run() throws {
-            let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
-            var lang = try getJson(path: path)
-            let process = ProcessArgs(stringConfig: "delete",stringKey: options.key, stringLanguage: options.language)
-            try delete(languages: &lang, process: process, path: path)
-        }
+    var search: SearchingProtocol {
+        SearchData(outputClass: output)
     }
-
-func getJson(path: String) throws -> [Language] {
-    var languages = [] as [Language]
-    if let json = FileManager.default.contents(atPath: path) {
-        try languages = JSONDecoder().decode([Language].self, from: json)
+    var update: UpdatingProtocol {
+        UpdateData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
     }
-    return languages
+    var delete: DeletingProtocol {
+        DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
+    var show: ShowingProtocol{
+        ShowData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
+    var getterString: GetStringKeysProtocol {
+        LanguagesKeys()
+    }
+    var output: OutputProtocol {
+        Output()
+    }
 }
 
-Arguments.main()
+let container = Container()
+
+let parser = container.argumentParser
+let arguments = container.argumentParser.parsing()
+
+let getterData = container.getData
+
+let setterData = container.setData
+
+let getterStrings = container.getterString
+
+let output = container.output
+
+let searcher = container.search
+let show = container.show
+let deleter = container.delete
+let updater = container.update
+
+
+switch (arguments) {
+case .search(let key, let language):
+    try show.startShowing(key: key, language: language)
+case .update(let word, let key, let language):
+    try updater.startUpdating(key: key, language: language, word: word)
+case .delete(let key, let language):
+    try deleter.startDeleting(key: key, language: language)
+default: parser.help()
+}
+

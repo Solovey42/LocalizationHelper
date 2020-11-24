@@ -1,24 +1,34 @@
-//
-// Created by solo on 29.10.2020.
-//
-
 import Foundation
 
-func update(languages: inout [Language], process: ProcessArgs, path: String) throws {
-    let languagesKeys = getLanguagesKeys(languages: languages)
-    guard languagesKeys.contains(process.language) else {
-        print("Not Found")
-        exit(0)
+class UpdateData: UpdatingProtocol {
+    var languages: [Language] = []
+    var gettingDataClass: GetDataProtocol
+    var updatingDataClass: SetDataProtocol
+    var getterStrings: GetStringKeysProtocol
+    var keys: [String] = []
+    var languagesKeys: [String] = []
+    var outputClass: OutputProtocol
+    var searchClass: SearchingProtocol
+
+    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+        self.gettingDataClass = gettingDataClass
+        self.updatingDataClass = updatingDataClass
+        self.getterStrings = getterStrings
+        self.outputClass = outputClass
+        self.searchClass = searchingClass
     }
-    for i in 0...languages.count - 1 {
-        for (key, value) in languages[i].words
-            where key == process.key && languages[i].key == process.language {
-            languages[i].words.updateValue(process.word, forKey: key)
-            let json = try JSONEncoder().encode(languages.self)
-            try json.write(to: URL(fileURLWithPath: path))
-            print("Word \(value) was updated")
-            exit(0)
+
+    func startUpdating(key: String, language: String, word: String) throws {
+        self.languages = try gettingDataClass.gettingData()
+        self.keys = getterStrings.getKeys(languages: languages)
+        self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
+
+        let item = searchClass.searchWitAllArg(languagesKeys: languagesKeys, language: language, languages: languages, key: key)
+
+        if let updatingWord = item {
+            languages[updatingWord.indexValue].words.updateValue(word, forKey: updatingWord.key)
+            outputClass.printUpdate(value: updatingWord.value)
         }
+        try updatingDataClass.settingData(languages: &languages)
     }
-    print("Not found")
 }
