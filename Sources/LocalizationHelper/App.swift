@@ -45,11 +45,11 @@ public func app() -> ExitCodes {
 
     switch (arguments) {
     case .search(let key, let language):
-        return show.startShowing(key: key ?? nil, language: language ?? nil)
+        return show.startShowing(key: key, language: language)
     case .update(let word, let key, let language):
         return updater.startUpdating(key: key, language: language, word: word)
     case .delete(let key, let language):
-        return deleter.startDeleting(key: key ?? nil, language: language ?? nil)
+        return deleter.startDeleting(key: key, language: language)
     default: parser.help()
         return ExitCodes.HelpCode
     }
