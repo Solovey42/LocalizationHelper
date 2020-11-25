@@ -1,7 +1,3 @@
-//
-// Created by solo on 20.11.2020.
-//
-
 import Foundation
 
 class Container {
