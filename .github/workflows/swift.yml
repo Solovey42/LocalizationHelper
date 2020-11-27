@@ -22,7 +22,9 @@ jobs:
            runTest: ".build/debug/Run test"
     steps:
       - name: Setup Swift
-        uses: fwal/setup-swift@v1.3.0
+        uses: actions/setup-node@v1
+        with:
+           node-version: ${{ matrix.os.ubuntu-18.04 }}
       - uses: actions/checkout@v2
       - name: PackagesResolve
         run: swift package resolve
