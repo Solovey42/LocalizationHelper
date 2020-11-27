@@ -18,8 +18,6 @@ jobs:
        include:
          - os: ubuntu-18.04
            runTest: "swift test -v"
-         - os: ubuntu-20.04
-           runTest: "swift test -v"
          - os: macos-latest
            runTest: ".build/debug/Run test"
     steps:
