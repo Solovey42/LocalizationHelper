@@ -22,7 +22,7 @@ jobs:
            runTest: ".build/debug/LocalizationHelperPackageTests.xctest"
     steps:
       - uses: actions/hello-world-javascript-action@v1.1
-        if: ${{ matrix.os != macos-latest}}
+        if: ${{ matrix.os != 'macos-latest'}}
       - uses: actions/checkout@v2
       - name: PackagesResolve
         run: swift package resolve
