@@ -20,9 +20,6 @@ jobs:
            runTest: "swift test -v"
          - os: macos-latest
            runTest: ".build/debug/Run test"
-       exclude:
-         - os: macos-latest
-           SetupSwift: ""
     steps:
       - name: Setup Swift
         uses: fwal/setup-swift@v1.3.0
