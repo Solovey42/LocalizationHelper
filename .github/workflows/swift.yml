@@ -29,7 +29,7 @@ jobs:
       - name: PackagesResolve
         run: swift package resolve
       - name: Build
-                env:
+        env:
           BUILDTEST: ${{ matrix.buildTest }}
         run: $BUILDTEST
       - name: Run Test.sh
