@@ -106,7 +106,7 @@ class SearchDataTest: XCTestCase {
     }
 
     static var allTests = [
-        ("testSearchWithOutArgTest", testSearchWithOutArg),
+        ("testSearchWithOutArg", testSearchWithOutArg),
         ("testSearchWithLanguage", testSearchWithLanguage),
         ("testSearchWithLanguageFail", testSearchWithLanguageFail),
         ("testSearchWithKey", testSearchWithKey),
