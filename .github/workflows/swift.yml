@@ -29,13 +29,13 @@ jobs:
       - name: PackagesResolve
         run: swift package resolve
       - name: Build
-        env:
-          BUILDTEST: ${{ matrix.buildTest }}
-        run: $BUILDTEST
+        run: swift build -v
       - name: Run Test.sh
         run: bash Test.sh
       - name: Build tests
-        run: swift build --build-tests
+        env:
+          BUILDTEST: ${{ matrix.buildTest }}
+        run: $BUILDTEST
       - name: Run tests
         env:
           RUNTEST: ${{ matrix.runTest }}
