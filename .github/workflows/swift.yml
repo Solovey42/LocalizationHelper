@@ -8,22 +8,35 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }} 
+    strategy:
+      matrix:
+       os: [macos-latest, windows-latest, ubuntu-18.04]
+       include:
+         - os: ubuntu-18.04, ubuntu-20.04
+           runTest: "swift test -v"
+         - os: macos-latest
+           runTest: ".build/debug/Run test"
+       exclude:
+         - os: macos-latest
+           SetupSwift: ""
     steps:
-    - name: Setup Swift
-      uses: fwal/setup-swift@v1.3.0
-    - uses: actions/checkout@v2
-    - name: PackagesResolve
-      run: swift package resolve
-    - name: Build
-      run: swift build -v
-    - name: Run Test.sh
-      run: bash Test.sh
-    - name: Build tests
-      run: swift build --build-tests
-    - name: Run tests
-      run: swift test -v
+      - name: Setup Swift
+        uses: fwal/setup-swift@v1.3.0
+      - uses: actions/checkout@v2
+      - name: PackagesResolve
+        run: swift package resolve
+      - name: Build
+        run: swift build -v
+      - name: Run Test.sh
+        run: bash Test.sh
+      - name: Build tests
+        run: swift build --build-tests
+      - name: Run tests
+        env:
+          RUNTEST: ${{ matrix.runTest }}
+        run: echo $RUNTEST
+
