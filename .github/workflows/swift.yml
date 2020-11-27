@@ -17,9 +17,11 @@ jobs:
        os: [macos-latest, ubuntu-18.04]
        include:
          - os: ubuntu-18.04
+           buildTest: swift build -v
            runTest: "swift test -v"
          - os: macos-latest
-           runTest: "swift test --generate-linuxmain"
+           buildTest: "swift test --generate-linuxmain"
+           runTest: "swift test -v"
     steps:
       - uses: fwal/setup-swift@v1.4.0
         if: ${{ matrix.os != 'macos-latest'}}
@@ -35,5 +37,5 @@ jobs:
       - name: Run tests
         env:
           RUNTEST: ${{ matrix.runTest }}
-        run: swift test -v
+        run: $RUNTEST
 
