@@ -19,12 +19,11 @@ jobs:
          - os: ubuntu-18.04
            runTest: "swift test -v"
          - os: macos-latest
-           runTest: ".build/debug/Run test"
+           runTest: ".build/debug/LocalizationHelperPackageTests.xctest"
     steps:
       - name: Setup Swift
-        uses: fwal/setup-swift@v1.3.0
-        with:
-           os: ubuntu-18.04 
+      - uses: actions/hello-world-javascript-action@v1.1
+        if: ${{ matrix.os != macos-latest}}
       - uses: actions/checkout@v2
       - name: PackagesResolve
         run: swift package resolve
