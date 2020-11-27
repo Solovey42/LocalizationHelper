@@ -2,7 +2,7 @@ import Foundation
 
 class JsonGetter: GetDataProtocol {
     func gettingData() -> Result<[Language],ExitCodes> {
-        let path = Bundle.module.path(forResource: "languages", ofType: "json") ?? "languages.json"
+        let path = Bundle.main.path(forResource: "languages", ofType: "json") ?? "languages.json"
         var languages = [] as [Language]
         if let json = FileManager.default.contents(atPath: path) {
             do {
