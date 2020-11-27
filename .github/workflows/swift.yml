@@ -15,11 +15,11 @@ jobs:
     strategy:
       matrix:
        os: [macos-latest, ubuntu-18.04]
-       include:
-         - os: ubuntu-18.04
-           runTest: "swift test -v"
-         - os: macos-latest
-           runTest: "swift test --generate-linuxmain"
+#       include:
+ #        - os: ubuntu-18.04
+  #         runTest: "swift test -v"
+   #      - os: macos-latest
+    #       runTest: "swift test --generate-linuxmain"
     steps:
       - uses: fwal/setup-swift@v1.4.0
         if: ${{ matrix.os != 'macos-latest'}}
@@ -33,7 +33,7 @@ jobs:
       - name: Build tests
         run: swift build --build-tests
       - name: Run tests
-        env:
-          RUNTEST: ${{ matrix.runTest }}
-        run: $RUNTEST
+       # env:
+        #  RUNTEST: ${{ matrix.runTest }}
+        run: swift test -v
 
