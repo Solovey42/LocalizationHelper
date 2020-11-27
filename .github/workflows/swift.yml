@@ -15,13 +15,6 @@ jobs:
     strategy:
       matrix:
        os: [macos-latest, ubuntu-18.04]
-       include:
-         - os: ubuntu-18.04
-           buildTest: "swift build -v"
-           runTest: "swift test -v"
-         - os: macos-latest
-           buildTest: "swift package generate-xcodeproj"
-           runTest: "xcodebuild test\ -scheme LocalizationHelper"
     steps:
       - uses: fwal/setup-swift@v1.4.0
         if: ${{ matrix.os != 'macos-latest'}}
@@ -32,12 +25,7 @@ jobs:
         run: swift build -v
       - name: Run Test.sh
         run: bash Test.sh
-      - name: Build tests
-        env:
-          BUILDTEST: ${{ matrix.buildTest }}
-        run: $BUILDTEST
       - name: Run tests
-        env:
-          RUNTEST: ${{ matrix.runTest }}
-        run: $RUNTEST
+        if: ${{ matrix.os == 'ubuntu-18.04'}}
+        run: swift test -v
 
