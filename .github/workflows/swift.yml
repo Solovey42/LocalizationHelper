@@ -35,7 +35,7 @@ jobs:
       - name: Build tests
         env:
           BUILDTEST: ${{ matrix.buildTest }}
-          run: $BUILDTEST
+        run: $BUILDTEST
       - name: Run tests
         env:
           RUNTEST: ${{ matrix.runTest }}
