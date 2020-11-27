@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }} 
     strategy:
       matrix:
-       os: [macos-latest, ubuntu-18.04, ubuntu-20.04]
+       os: [macos-latest, ubuntu-18.04]
        include:
          - os: ubuntu-18.04
            runTest: "swift test -v"
