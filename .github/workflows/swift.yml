@@ -16,7 +16,9 @@ jobs:
       matrix:
        os: [macos-latest, windows-latest, ubuntu-18.04]
        include:
-         - os: ubuntu-18.04, ubuntu-20.04
+         - os: ubuntu-18.04
+           runTest: "swift test -v"
+         - os: ubuntu-20.04
            runTest: "swift test -v"
          - os: macos-latest
            runTest: ".build/debug/Run test"
