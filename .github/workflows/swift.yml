@@ -25,7 +25,7 @@ jobs:
         run: swift build -v
       - name: Run Test.sh
         run: bash Test.sh
-      - name: Run tests
+      - name: Run unit-tests
         if: ${{ matrix.os == 'ubuntu-18.04'}}
         run: swift test -v
 
