@@ -15,9 +15,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: PackagesResolve
       run: swift package resolve
-    - name: GenerateXCodeProject
-      run: swift package generate-xcodeproj
     - name: Build
       run: swift build -v
+    - name: Build tests
+      run: swift build --build-tests
     - name: Run tests
       run: swift test -v
+    - name: Run Test.sh
+      run: Test.sh
