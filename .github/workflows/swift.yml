@@ -21,7 +21,7 @@ jobs:
            runTest: "swift test -v"
          - os: macos-latest
            buildTest: "swift package generate-xcodeproj"
-           runTest: "xcodebuild test"
+           runTest: "xcodebuild test\ -scheme LocalizationHelper"
     steps:
       - uses: fwal/setup-swift@v1.4.0
         if: ${{ matrix.os != 'macos-latest'}}
