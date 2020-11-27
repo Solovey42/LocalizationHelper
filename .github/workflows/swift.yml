@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: PackageInit
-      run: swift package init
+    - name: FixPath
+      run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
     - name: Build
       run: swift build -v
     - name: Run tests
