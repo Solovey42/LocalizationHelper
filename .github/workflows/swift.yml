@@ -19,7 +19,7 @@ jobs:
          - os: ubuntu-18.04
            runTest: "swift test -v"
          - os: macos-latest
-           runTest: ".build/debug/LocalizationHelperPackageTests.xctest"
+           runTest: ".build/debug/Run test"
     steps:
       - uses: fwal/setup-swift@v1.4.0
         if: ${{ matrix.os != 'macos-latest'}}
@@ -35,5 +35,5 @@ jobs:
       - name: Run tests
         env:
           RUNTEST: ${{ matrix.runTest }}
-        run: echo $RUNTEST
+        run: $RUNTEST
 
