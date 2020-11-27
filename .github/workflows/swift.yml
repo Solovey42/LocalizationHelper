@@ -21,9 +21,9 @@ jobs:
       run: swift package resolve
     - name: Build
       run: swift build -v
+    - name: Run Test.sh
+      run: bash Test.sh
     - name: Build tests
       run: swift build --build-tests
     - name: Run tests
       run: swift test -v
-    - name: Run Test.sh
-      run: Test.sh
