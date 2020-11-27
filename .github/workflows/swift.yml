@@ -21,7 +21,6 @@ jobs:
          - os: macos-latest
            runTest: ".build/debug/LocalizationHelperPackageTests.xctest"
     steps:
-      - name: Setup Swift
       - uses: actions/hello-world-javascript-action@v1.1
         if: ${{ matrix.os != macos-latest}}
       - uses: actions/checkout@v2
