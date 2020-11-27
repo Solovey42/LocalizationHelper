@@ -9,9 +9,11 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
+    - name: Setup Swift
+      uses: fwal/setup-swift@v1.3.0
     - uses: actions/checkout@v2
     - name: PackagesResolve
       run: swift package resolve
