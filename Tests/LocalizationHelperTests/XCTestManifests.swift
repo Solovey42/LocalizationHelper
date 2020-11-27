@@ -1,5 +1,6 @@
 import XCTest
 
+#if !canImport(ObjectiveC)
 public func allTests() -> [XCTestCaseEntry] {
     [
         testCase(SearchDataTest.allTests),
@@ -10,3 +11,4 @@ public func allTests() -> [XCTestCaseEntry] {
         testCase(ArgumentParserTest.allTests)
     ]
 }
+#endif
