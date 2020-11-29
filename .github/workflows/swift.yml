@@ -1,0 +1,31 @@
+name: Swift
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }} 
+    strategy:
+      matrix:
+       os: [macos-latest, ubuntu-18.04]
+    steps:
+      - uses: fwal/setup-swift@v1.4.0
+        if: ${{ matrix.os != 'macos-latest'}}
+      - uses: actions/checkout@v2
+      - name: PackagesResolve
+        run: swift package resolve
+      - name: Build
+        run: swift build -v
+      - name: Run Test.sh
+        run: bash Test.sh
+      - name: Run unit-tests
+        if: ${{ matrix.os == 'ubuntu-18.04'}}
+        run: swift test -v
+
