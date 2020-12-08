@@ -24,21 +24,6 @@ struct DeleteController: RouteCollection {
 
         return req.eventLoop.future(result: result)
     }
-
-    func getWords(result: Result<[(languageKey: String, key: String, value: String)], Error>, key: String) -> [String: String] {
-        var words: [String: String] = [:]
-        switch result {
-        case .success(let items):
-            for item in items {
-                if item.key == key {
-                    words[item.languageKey] = item.value
-                }
-            }
-            return words
-        case .failure:
-            return [:]
-        }
-    }
 }
 
 extension DeleteController {
