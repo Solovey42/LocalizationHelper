@@ -42,23 +42,23 @@ public func app() -> ExitCodes {
     switch (arguments) {
     case .search(let key, let language):
         let result = show.startShowing(key: key, language: language)
-        switch result{
+        switch result {
         case .success:
-             return .Success
+            return .Success
         case .failure(let error):
-             return error
+            return error
         }
     case .update(let word, let key, let language):
-        let result =  updater.startUpdating(key: key, language: language, word: word)
-        switch result{
+        let result = updater.startUpdating(key: key, language: language, word: word)
+        switch result {
         case .success:
             return .Success
         case .failure(let error):
             return error
         }
     case .delete(let key, let language):
-        let result =  deleter.startDeleting(key: key, language: language)
-        switch result{
+        let result = deleter.startDeleting(key: key, language: language)
+        switch result {
         case .success:
             return .Success
         case .failure(let error):
