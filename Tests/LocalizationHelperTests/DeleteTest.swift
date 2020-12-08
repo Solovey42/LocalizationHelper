@@ -33,7 +33,7 @@ class DeleteDataTest: XCTestCase {
         let languageArgument = "rus"
         let result = delete.startDeleting(key: keyArgument, language: languageArgument)
 
-        guard case .Success = result else {
+        guard case .success(_) = result else {
             XCTFail("The expected result has a case of success, the actual result has a case of failure")
             return
         }
@@ -73,7 +73,7 @@ class DeleteDataTest: XCTestCase {
         let languageArgument = "ddd"
         let result = delete.startDeleting(key: "hello", language: "ddd")
 
-        guard case .UnknownLanguage = result else {
+        guard case .failure(.UnknownLanguage) = result else {
             XCTFail("The actual result has not a case of UnknownLanguage")
             return
         }
@@ -108,7 +108,7 @@ class DeleteDataTest: XCTestCase {
         let result = delete.startDeleting(key: "ddd", language: "rus")
 
 
-        guard case .UnknownKey = result else {
+        guard case .failure(.UnknownKey) = result else {
             XCTFail("The actual result has not a case of UnknownKey")
             return
         }
@@ -143,7 +143,7 @@ class DeleteDataTest: XCTestCase {
         let result = delete.startDeleting(key: "day", language: "rus")
 
 
-        guard case .UnknownWord = result else {
+        guard case .failure(.UnknownWord) = result else {
             XCTFail("The actual result has not a case of UnknownKey")
             return
         }
@@ -177,7 +177,7 @@ class DeleteDataTest: XCTestCase {
         let languageArgument = "rus"
         let result = delete.startDeleting(key: "hello", language: "rus")
 
-        guard case .WriteError = result else {
+        guard case .failure(.WriteError) = result else {
             XCTFail("The actual result has not a case of WriteError")
             return
         }
@@ -200,7 +200,7 @@ class DeleteDataTest: XCTestCase {
         getData.gettingDataResult = .failure(ExitCodes.ReadError)
         let result = delete.startDeleting(key: "hello", language: "eng")
 
-        guard case .ReadError = result else {
+        guard case .failure(.ReadError) = result else {
             XCTFail("The actual result has not a case of ReadError")
             return
         }
