@@ -18,14 +18,14 @@ class UpdateData: UpdatingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startUpdating(key: String, language: String, word: String) -> ExitCodes {
+    func startUpdating(key: String, language: String, word: String) -> Result<String, ExitCodes> {
         let data = gettingDataClass.gettingData()
         switch data {
         case .success(let languages):
             self.languages = languages
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -39,13 +39,13 @@ class UpdateData: UpdatingProtocol {
                 try updatingDataClass.settingData(languages: &languages)
             } catch {
                 outputClass.printError(error: ExitCodes.WriteError)
-                return .WriteError
+                return .failure(.WriteError)
             }
             outputClass.printUpdate(value: updatingWord.value)
-            return .Success
+            return .success(word)
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
     }
 }

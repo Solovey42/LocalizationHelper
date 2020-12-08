@@ -1,5 +1,5 @@
 import Foundation
 
-protocol DeletingProtocol {
-    func startDeleting(key: String?, language: String?) -> ExitCodes
+public protocol DeletingProtocol {
+    func startDeleting(key: String?, language: String?) -> Result<String, ExitCodes>
 }

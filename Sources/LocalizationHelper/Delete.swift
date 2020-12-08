@@ -18,7 +18,7 @@ class DeleteData: DeletingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startDeleting(key: String?, language: String?) -> ExitCodes {
+    func startDeleting(key: String?, language: String?) -> Result<String, ExitCodes> {
 
         let data = gettingDataClass.gettingData()
         switch data {
@@ -26,7 +26,7 @@ class DeleteData: DeletingProtocol {
             self.languages = languages
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -42,11 +42,11 @@ class DeleteData: DeletingProtocol {
             let indexLanguage = searchClass.searchWithLanguage(languagesKeys: languagesKeys, language: argLanguage, languages: languages)
             return deleteWithLanguage(argLanguage: argLanguage, indexLanguage: indexLanguage)
         } else {
-            return .DeleteError
+            return .failure(.DeleteError)
         }
     }
 
-    func deleteWithKey(argKey: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> ExitCodes {
+    func deleteWithKey(argKey: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> Result<String, ExitCodes> {
         switch items {
         case .success(let words):
             for item in words {
@@ -55,18 +55,18 @@ class DeleteData: DeletingProtocol {
                     try updatingDataClass.settingData(languages: &languages)
                 } catch {
                     outputClass.printError(error: ExitCodes.WriteError)
-                    return .WriteError
+                    return .failure(.WriteError)
                 }
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
             }
-            return .Success
+            return .success(argKey)
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
     }
 
-    func deleteWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> ExitCodes {
+    func deleteWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> Result<String, ExitCodes> {
 
         switch indexLanguage {
         case .success(let index):
@@ -75,17 +75,17 @@ class DeleteData: DeletingProtocol {
                 try updatingDataClass.settingData(languages: &languages)
             } catch {
                 outputClass.printError(error: ExitCodes.WriteError)
-                return .WriteError
+                return .failure(.WriteError)
             }
             outputClass.printDeleteLanguage(value: languagesKeys[index])
-            return .Success
+            return .success(argLanguage)
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
     }
 
-    func deleteWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> ExitCodes {
+    func deleteWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> Result<String, ExitCodes> {
         switch item {
         case .success(let deletingWord):
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
@@ -93,13 +93,13 @@ class DeleteData: DeletingProtocol {
                 try updatingDataClass.settingData(languages: &languages)
             } catch {
                 outputClass.printError(error: ExitCodes.WriteError)
-                return .WriteError
+                return .failure(.WriteError)
             }
             outputClass.printDeleteWord(key: languages[deletingWord.indexValue].key, value: deletingWord.value)
-            return .Success
+            return .success(deletingWord.value)
         case .failure(let error):
             outputClass.printError(error: error)
-            return error
+            return .failure(error)
         }
     }
 }

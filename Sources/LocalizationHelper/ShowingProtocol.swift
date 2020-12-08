@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol ShowingProtocol {
-    func startShowing( key: String?, language: String?) -> ExitCodes
+public protocol ShowingProtocol {
+    func startShowing(key: String?, language: String?) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes>
 
 }

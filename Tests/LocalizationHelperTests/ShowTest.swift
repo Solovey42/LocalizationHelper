@@ -33,7 +33,7 @@ class ShowDataTest: XCTestCase {
         let languageArgument = "rus"
         let result = show.startShowing(key: keyArgument, language: languageArgument)
 
-        guard case .Success = result else {
+        guard case .success(_) = result else {
             XCTFail("The expected result has a case of success, the actual result has a case of failure")
             return
         }
@@ -68,7 +68,7 @@ class ShowDataTest: XCTestCase {
         let languageArgument = "ddd"
         let result = show.startShowing(key: "hello", language: "ddd")
 
-        guard case .UnknownLanguage = result else {
+        guard case .failure(.UnknownLanguage) = result else {
             XCTFail("The actual result has not a case of UnknownLanguage")
             return
         }
@@ -102,7 +102,7 @@ class ShowDataTest: XCTestCase {
         let result = show.startShowing(key: "ddd", language: "rus")
 
 
-        guard case .UnknownKey = result else {
+        guard case .failure(.UnknownKey) = result else {
             XCTFail("The actual result has not a case of UnknownKey")
             return
         }
@@ -136,7 +136,7 @@ class ShowDataTest: XCTestCase {
         let result = show.startShowing(key: "day", language: "rus")
 
 
-        guard case .UnknownWord = result else {
+        guard case .failure(.UnknownWord) = result else {
             XCTFail("The actual result has not a case of UnknownKey")
             return
         }
@@ -158,7 +158,7 @@ class ShowDataTest: XCTestCase {
         getData.gettingDataResult = .failure(ExitCodes.ReadError)
         let result = show.startShowing(key: "hello", language: "eng")
 
-        guard case .ReadError = result else {
+        guard case .failure(.ReadError) = result else {
             XCTFail("The actual result has not a case of ReadError")
             return
         }

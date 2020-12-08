@@ -41,11 +41,29 @@ public func app() -> ExitCodes {
 
     switch (arguments) {
     case .search(let key, let language):
-        return show.startShowing(key: key, language: language)
+        let result = show.startShowing(key: key, language: language)
+        switch result {
+        case .success:
+            return .Success
+        case .failure(let error):
+            return error
+        }
     case .update(let word, let key, let language):
-        return updater.startUpdating(key: key, language: language, word: word)
+        let result = updater.startUpdating(key: key, language: language, word: word)
+        switch result {
+        case .success:
+            return .Success
+        case .failure(let error):
+            return error
+        }
     case .delete(let key, let language):
-        return deleter.startDeleting(key: key, language: language)
+        let result = deleter.startDeleting(key: key, language: language)
+        switch result {
+        case .success:
+            return .Success
+        case .failure(let error):
+            return error
+        }
     default: parser.help()
         return ExitCodes.HelpCode
     }
