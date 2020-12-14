@@ -4,28 +4,28 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master ] #Запуск тестов будет производить после команды -git push или слияние pullrequest'а с веткой master
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }} 
+    runs-on: ${{ matrix.os }} #создание матричного запуска
     strategy:
       matrix:
-       os: [macos-latest, ubuntu-18.04]
+       os: [macos-latest, ubuntu-18.04]  #добавление операционных систем в матрицу
     steps:
       - uses: fwal/setup-swift@v1.4.0
-        if: ${{ matrix.os != 'macos-latest'}}
+        if: ${{ matrix.os != 'macos-latest'}} #установка языка Swift, если выбрана операционная система Linux
       - uses: actions/checkout@v2
       - name: PackagesResolve
-        run: swift package resolve
+        run: swift package resolve #создание пакетов проекта
       - name: Build
-        run: swift build -v
+        run: swift build -v #сборка нашего приложения
       - name: Run Test.sh
-        run: bash Test.sh
+        run: bash Test.sh #запуск наших системных тестов
       - name: Run unit-tests
         if: ${{ matrix.os == 'ubuntu-18.04'}}
-        run: swift test -v
+        run: swift test -v #запуск наших модульных тестов
 
