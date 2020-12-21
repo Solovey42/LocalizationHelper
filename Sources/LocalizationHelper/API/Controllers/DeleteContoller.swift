@@ -18,20 +18,33 @@ struct DeleteController: RouteCollection {
     func delete(req: Request) -> EventLoopFuture<String> {
         let param = try? req.query.decode(Parameters.self)
 
-        /*     let a =  req.db.query(Lang.self).all().map { element3 in
+        let result =  req.db.query(Lang.self).all().map { element3 in
             deleteClass.startDeleting(key: param?.key, language: param?.language, data: transformToLanguages(lang: element3)).mapError {
                 $0 as Error
-            }.map
-        }*/
-            req.db.query(Lang.self).all().map { element3 in
+            }
+        }.map{ result in getRes(result: result)}.map{ res in if res != ""{
+            Lang.query(on: req.db)
+                    .filter(\.$key == param?.language ?? "")
+                    .delete()
+            Lang.query(on: req.db)
+                    .filter(\.$key == param?.language ?? "")
+                    .filter(\.$words == [param?.key ?? "":res])
+                    .set(\.$words, to: ["": ""])
+                    .update()
+            Lang.query(on: req.db)
+                    .filter(\.$key == param?.language ?? "")
+                    .delete()
+
+        }
+        }
+
+/*            req.db.query(Lang.self).all().map { element3 in
                 deleteClass.startDeleting(key: param?.key, language: param?.language, data: transformToLanguages(lang: element3)).mapError {
                     $0 as Error
-                }.map { word in
-                    Lang.query(on: req.db)
-                            .filter(\.$key == param?.language ?? "")
-                            .delete()
-                }
-            }
+                }.map { word in*/
+
+
+
         //удаления языка
 
         return req.eventLoop.future("")
@@ -68,7 +81,7 @@ func getRes(result: Result<String, Error>) -> String {
     case .success(let res):
         return res
     case .failure(let error):
-        return error.localizedDescription
+        return ""
     }
 }
 
