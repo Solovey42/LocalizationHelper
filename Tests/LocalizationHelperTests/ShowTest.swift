@@ -15,7 +15,7 @@ class ShowDataTest: XCTestCase {
         getStrings = LanguagesKeysMock()
         output = OutputMock()
         search = SearchDataMock()
-        show = ShowData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getStrings, outputClass: output, searchingClass: search)
+        show = ShowData(gettingDataClass: getData, getterStrings: getStrings, outputClass: output, searchingClass: search)
     }
 
     func testSuccess() throws {

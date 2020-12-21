@@ -20,7 +20,16 @@ class Container {
         DeleteData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
     }
     var show: ShowingProtocol {
-        ShowData(gettingDataClass: getData, updatingDataClass: setData, getterStrings: getterString, outputClass: output, searchingClass: search)
+        ShowData(gettingDataClass: getData, getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
+    var updateDB: UpdatingProtocol {
+        UpdateData(getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
+    var deleteDB: DeletingProtocol {
+        DeleteData(getterStrings: getterString, outputClass: output, searchingClass: search)
+    }
+    var showDB: ShowingProtocol {
+        ShowData(getterStrings: getterString, outputClass: output, searchingClass: search)
     }
     var getterString: GetStringKeysProtocol {
         LanguagesKeys()
@@ -41,7 +50,7 @@ public func app() -> ExitCodes {
 
     switch (arguments) {
     case .search(let key, let language):
-        let result = show.startShowing(key: key, language: language)
+        let result = show.startShowing(key: key, language: language, data: nil)
         switch result {
         case .success:
             return .Success
@@ -49,7 +58,7 @@ public func app() -> ExitCodes {
             return error
         }
     case .update(let word, let key, let language):
-        let result = updater.startUpdating(key: key, language: language, word: word)
+        let result = updater.startUpdating(key: key, language: language, word: word, data: nil)
         switch result {
         case .success:
             return .Success
@@ -57,7 +66,7 @@ public func app() -> ExitCodes {
             return error
         }
     case .delete(let key, let language):
-        let result = deleter.startDeleting(key: key, language: language)
+        let result = deleter.startDeleting(key: key, language: language, data: nil)
         switch result {
         case .success:
             return .Success

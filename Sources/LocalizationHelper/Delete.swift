@@ -2,15 +2,15 @@ import Foundation
 
 class DeleteData: DeletingProtocol {
     var languages: [Language] = []
-    var gettingDataClass: GetDataProtocol
-    var updatingDataClass: SetDataProtocol
+    var gettingDataClass: GetDataProtocol?
+    var updatingDataClass: SetDataProtocol?
     var getterStrings: GetStringKeysProtocol
     var keys: [String] = []
     var languagesKeys: [String] = []
     var outputClass: OutputProtocol
     var searchClass: SearchingProtocol
 
-    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+    init(gettingDataClass: GetDataProtocol? = nil, updatingDataClass: SetDataProtocol? = nil, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
         self.gettingDataClass = gettingDataClass
         self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
@@ -18,15 +18,21 @@ class DeleteData: DeletingProtocol {
         self.searchClass = searchingClass
     }
 
-    func startDeleting(key: String?, language: String?) -> Result<String, ExitCodes> {
+    func startDeleting(key: String?, language: String?, data: [Language]? = nil) -> Result<String, ExitCodes> {
 
-        let data = gettingDataClass.gettingData()
-        switch data {
-        case .success(let languages):
-            self.languages = languages
-        case .failure(let error):
-            outputClass.printError(error: error)
-            return .failure(error)
+        if gettingDataClass != nil {
+            let data = gettingDataClass?.gettingData()
+            switch data {
+            case .success(let languages):
+                self.languages = languages
+            case .failure(let error):
+                outputClass.printError(error: error)
+                return .failure(error)
+            case .none:
+                return .failure(.ReadError)
+            }
+        } else if let c = data{
+            self.languages = c
         }
 
         self.keys = getterStrings.getKeys(languages: languages)
@@ -52,13 +58,14 @@ class DeleteData: DeletingProtocol {
             for item in words {
                 languages[item.indexValue].words.removeValue(forKey: item.key)
                 do {
-                    try updatingDataClass.settingData(languages: &languages)
+                    try updatingDataClass?.settingData(languages: &languages)
                 } catch {
                     outputClass.printError(error: ExitCodes.WriteError)
                     return .failure(.WriteError)
                 }
                 outputClass.printDeleteWord(key: languages[item.indexValue].key, value: item.value)
             }
+
             return .success(argKey)
         case .failure(let error):
             outputClass.printError(error: error)
@@ -72,7 +79,7 @@ class DeleteData: DeletingProtocol {
         case .success(let index):
             languages.remove(at: index)
             do {
-                try updatingDataClass.settingData(languages: &languages)
+                try updatingDataClass?.settingData(languages: &languages)
             } catch {
                 outputClass.printError(error: ExitCodes.WriteError)
                 return .failure(.WriteError)
@@ -90,7 +97,7 @@ class DeleteData: DeletingProtocol {
         case .success(let deletingWord):
             languages[deletingWord.indexValue].words.removeValue(forKey: deletingWord.key)
             do {
-                try updatingDataClass.settingData(languages: &languages)
+                try updatingDataClass?.settingData(languages: &languages)
             } catch {
                 outputClass.printError(error: ExitCodes.WriteError)
                 return .failure(.WriteError)

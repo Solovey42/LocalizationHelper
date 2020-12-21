@@ -7,4 +7,8 @@ public protocol LanguageProtocol {
 public struct Language:LanguageProtocol,Codable {
     public var key: String
     public var words: [String: String]
+    init(key:String,words:[String:String]){
+        self.key=key
+        self.words = words
+    }
 }

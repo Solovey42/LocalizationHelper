@@ -7,38 +7,44 @@ import Foundation
 class ShowData: ShowingProtocol {
 
     var languages: [Language] = []
-    var gettingDataClass: GetDataProtocol
-    var updatingDataClass: SetDataProtocol
+    var gettingDataClass: GetDataProtocol?
     var getterStrings: GetStringKeysProtocol
     var keys: [String] = []
     var languagesKeys: [String] = []
     var outputClass: OutputProtocol
     var searchClass: SearchingProtocol
 
-    init(gettingDataClass: GetDataProtocol, updatingDataClass: SetDataProtocol, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+    init(gettingDataClass: GetDataProtocol? = nil, getterStrings: GetStringKeysProtocol, outputClass: OutputProtocol, searchingClass: SearchingProtocol) {
+
         self.gettingDataClass = gettingDataClass
-        self.updatingDataClass = updatingDataClass
         self.getterStrings = getterStrings
         self.outputClass = outputClass
         self.searchClass = searchingClass
     }
 
-    func startShowing(key: String?, language: String?) -> Result<[(languageKey: String,key: String, value: String)], ExitCodes> {
-        let data = gettingDataClass.gettingData()
-        switch data {
-        case .success(let languages):
-            self.languages = languages
-        case .failure(let error):
-            outputClass.printError(error: error)
-            return .failure(.ReadError)
-        }
+    func startShowing(key: String?, language: String?, data: [Language]? = nil) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes> {
 
+
+        if gettingDataClass != nil {
+            let data = gettingDataClass?.gettingData()
+            switch data {
+            case .success(let languages):
+                self.languages = languages
+            case .failure(let error):
+                outputClass.printError(error: error)
+                return .failure(.ReadError)
+            case .none:
+                return .failure(.ReadError)
+            }
+        } else if let data = data {
+            languages = data
+        }
         self.keys = getterStrings.getKeys(languages: languages)
         self.languagesKeys = getterStrings.getLanguagesKeys(languages: languages)
 
         if language == nil && key == nil {
-        let words = searchClass.searchWithOutArg(keys: keys, languages: languages)
-        return showWithOutArg(items: words)
+            let words = searchClass.searchWithOutArg(keys: keys, languages: languages)
+            return showWithOutArg(items: words)
         } else if let argLanguage = language, let argKey = key {
             let word = searchClass.searchWitAllArg(keys: keys, languagesKeys: languagesKeys, language: argLanguage, languages: languages, key: argKey)
             return showWithAllArg(argLanguage: argLanguage, argKey: argKey, item: word)
@@ -54,27 +60,27 @@ class ShowData: ShowingProtocol {
     }
 
 
-    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> Result<[(languageKey: String,key: String, value: String)], ExitCodes> {
+    func showWithOutArg(items: [(key: String, languageKey: String, value: String)]) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes> {
         var result: [(languageKey: String, key: String, value: String)] = []
         for key in keys {
             outputClass.printWord(word: key)
             for item in items {
                 if key == item.key {
                     outputClass.printWithAllArg(key: item.languageKey, value: item.value)
-                    result.append((languageKey: item.languageKey , key: item.key, value: item.value))
+                    result.append((languageKey: item.languageKey, key: item.key, value: item.value))
                 }
             }
         }
         return .success(result)
     }
 
-    func showWithKey(argKey: String, key: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> Result<[(languageKey: String,key: String, value: String)], ExitCodes> {
+    func showWithKey(argKey: String, key: String, items: Result<[(indexValue: Int, key: String, value: String)], ExitCodes>) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes> {
         switch items {
         case .success(let words):
             var result: [(languageKey: String, key: String, value: String)] = []
             for item in words {
                 outputClass.printWithAllArg(key: languagesKeys[item.indexValue], value: item.value)
-                result.append((languageKey: languagesKeys[item.indexValue] , key: item.key, value: item.value))
+                result.append((languageKey: languagesKeys[item.indexValue], key: item.key, value: item.value))
             }
             return .success(result)
         case .failure(let error):
@@ -83,13 +89,13 @@ class ShowData: ShowingProtocol {
         }
     }
 
-    func showWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> Result<[(languageKey: String,key: String, value: String)], ExitCodes> {
+    func showWithLanguage(argLanguage: String, indexLanguage: Result<Int, ExitCodes>) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes> {
         switch indexLanguage {
         case .success(let index):
             var result: [(languageKey: String, key: String, value: String)] = []
             for (key, value) in languages[index].words {
                 outputClass.printWithAllArg(key: key, value: value)
-                result.append((languageKey:  languagesKeys[index] , key: key, value: value))
+                result.append((languageKey: languagesKeys[index], key: key, value: value))
             }
             return .success(result)
         case .failure(let error):
@@ -98,12 +104,12 @@ class ShowData: ShowingProtocol {
         }
     }
 
-    func showWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> Result<[(languageKey: String,key: String, value: String)], ExitCodes> {
+    func showWithAllArg(argLanguage: String, argKey: String, item: Result<(indexValue: Int, key: String, value: String), ExitCodes>) -> Result<[(languageKey: String, key: String, value: String)], ExitCodes> {
         switch item {
         case .success(let word):
             var result: [(languageKey: String, key: String, value: String)] = []
             outputClass.printWord(word: word.value)
-            result.append((languageKey: languagesKeys[word.indexValue] , key: word.key, value: word.value))
+            result.append((languageKey: languagesKeys[word.indexValue], key: word.key, value: word.value))
             return .success(result)
         case .failure(let error):
             outputClass.printError(error: error)

@@ -1,7 +1,7 @@
 import Foundation
 import Fluent
 
-struct CreateLanguage: Migration {
+/*struct CreateLanguage: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("language")
                 .id()
@@ -29,6 +29,18 @@ struct CreateWords: Migration {
         return database.schema("words")
                 .delete()
     }
+}*/
+struct CreateLang: Migration {
+    func prepare(on database: Database) -> EventLoopFuture<Void> {
+        return database.schema("lang")
+                .id()
+                .field("key", .string, .required)
+                .field("words", .dictionary, .required)
+                .create()
+    }
 
-
+    func revert(on database: Database) -> EventLoopFuture<Void> {
+        return database.schema("lang")
+                .delete()
+    }
 }
