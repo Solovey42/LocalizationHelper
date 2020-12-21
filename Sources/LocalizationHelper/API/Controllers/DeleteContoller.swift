@@ -23,7 +23,6 @@ struct DeleteController: RouteCollection {
                 $0 as Error
             }.map
         }*/
-        if param?.language == nil && param?.key != nil {
             req.db.query(Lang.self).all().map { element3 in
                 deleteClass.startDeleting(key: param?.key, language: param?.language, data: transformToLanguages(lang: element3)).mapError {
                     $0 as Error
@@ -33,7 +32,8 @@ struct DeleteController: RouteCollection {
                             .delete()
                 }
             }
-        }//удаления языка
+        //удаления языка
+
         return req.eventLoop.future("")
     }
 }
