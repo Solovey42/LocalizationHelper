@@ -4,7 +4,33 @@
 
 import Foundation
 
-public enum ExitCodes: Error {
+public enum ExitCodes: Error{
+
+    public var encodable:String{
+        switch self{
+        case .Success:
+            return "Success"
+        case .HelpCode:
+            return "HelpCode"
+        case .UnknownLanguage:
+            return "UnknownLanguage"
+        case .UnknownKey:
+            return "UnknownKey"
+        case .UnknownWord:
+            return "UnknownWord"
+        case .WriteError:
+            return "WriteError"
+        case .ReadError:
+            return "ReadError"
+        case .ShowError:
+            return  "Wrong arguments for showing"
+        case .DeleteError:
+            return "Wrong arguments for deleting"
+        case .UpdateError:
+            return "Wrong arguments for updating"
+        }
+    }
+
     case Success
     case HelpCode
     case UnknownLanguage

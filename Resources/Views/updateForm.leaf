@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Обновление</title>
+    </head>
+    <body>
+
+        <form method="GET" action="/update?word=#(word)&key=#(key)&language=#(language)">
+            <div class="block" style="margin-left: 40%; margin-right: 40%; margin-top: 10%">
+                <div class="field">
+                <h2>Все поля ввода должны быть заполнены!</h2>
+                  <label class="label">Новое слово</label>
+                  <div class="control">
+                    <input class="input" type="text" name="word" value="#(word)" placeholder="Введите новое слово">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Обновляемое слово</label>
+                  <div class="control">
+                    <input class="input" type="text" name="key" value="#(key)" placeholder="Введите обновляемое слово">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Язык</label>
+                  <div class="control">
+                    <input class="input" type="text" name="language" value="#(language)" placeholder="Введите язык">
+                  </div>
+                </div>
+
+                <div class="control">
+                  <button type="submit" class="button is-primary">Изменить</button>
+                </div>
+            </div>
+        </form>
+
+    </body>
+</html>

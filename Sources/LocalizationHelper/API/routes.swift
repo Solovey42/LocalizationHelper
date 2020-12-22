@@ -3,6 +3,9 @@ import Fluent
 import Vapor
 
 func routes(app: Application) throws {
+    app.get() { req -> EventLoopFuture<View> in
+        return req.view.render("hello")
+    }
     let container = Container()
     let showClass = container.show
     let deleteClass = container.delete

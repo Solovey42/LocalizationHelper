@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Главная </title>
+    </head>
+    <body>
+
+        <div align="center" style="margin-left: 32%; margin-right: 32%; margin-top: 5%;">
+            <div class="field">
+             <H1> <label class="label">Веб приложение Localization Helper</label> </H1>
+              <a href="/searchForm" class="button is-primary is-light">Поиск</a>
+              <a href="/updateForm" class="button is-primary is-light">Изменение</a>
+              <a href="/deleteForm" class="button is-primary is-light">Удаление</a>
+            </div>
+        </div>
+
+
+    </body>
+</html>

@@ -11,18 +11,41 @@ struct UpdateController: RouteCollection {
 
     func boot(routes: RoutesBuilder) throws {
         let app = routes.grouped("update")
-        app.post(use: update)
+        app.get(use: update)
+        let form = routes.grouped("updateForm")
+        form.get(use: updateForm)
     }
 
-    func update(req: Request) -> EventLoopFuture<String> {
+    func updateForm(req: Request) -> EventLoopFuture<View> {
+        req.view.render("updateForm")
+    }
+
+    func update(req: Request) -> EventLoopFuture<View> {
         let param = try? req.query.decode(Parameters.self)
 
-        let result = updateClass.startUpdating(key: param?.key ?? "", language: param?.language ?? "", word: param?.word ?? "").mapError {
-            $0 as Error
-        }
-        return req.eventLoop.future(result: result)
-    }
+        var language = param?.language
+        var key = param?.key
+        var word = param?.word
 
+        if language == "" {
+            language = nil
+        }
+        if key == "" {
+            key = nil
+        }
+        if word == "" {
+            word = nil
+        }
+
+        let result = updateClass.startUpdating(key: key ?? "", language: language ?? "", word: param?.word ?? "")
+
+        switch result {
+        case .success(let value):
+            return req.view.render("result", ["result": "Введенное слово обновлено на \(value)"])
+        case .failure(let error):
+            return req.view.render("result", ["result": error.encodable])
+        }
+    }
 }
 
 extension UpdateController {

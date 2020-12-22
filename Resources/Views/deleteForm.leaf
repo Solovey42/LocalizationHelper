@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Удаление</title>
+    </head>
+    <body>
+
+        <form method="GET" action="/delete?key=#(key)&language=#(language)"">
+            <div class="block" style="margin-left: 40%; margin-right: 40%; margin-top: 10%">
+                <div class="field">
+                <h2>Одно из полей ввода должно быть заполнено!</h2>
+                  <label class="label">Удаляемое слово</label>
+                  <div class="control">
+                    <input class="input" type="text" name="key" value="#(key)" placeholder="Введите слово">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Язык</label>
+                  <div class="control">
+                    <input class="input" type="text" name="language" value="#(language)" placeholder="Введите язык">
+                  </div>
+                </div>
+
+                <div class="control">
+                  <button type="submit" class="button is-primary">Удалить</button>
+                </div>
+            </div>
+        </form>
+
+    </body>
+</html>

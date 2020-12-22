@@ -9,24 +9,41 @@ struct ShowController: RouteCollection {
         self.showClass = showClass
     }
 
+
     func boot(routes: RoutesBuilder) throws {
         let app = routes.grouped("search")
         app.get(use: search)
+        let form = routes.grouped("searchForm")
+        form.get(use: searchForm)
+
     }
 
+    func searchForm(req: Request) -> EventLoopFuture<View> {
+        req.view.render("searchForm")
+    }
 
-    func search(req: Request) -> EventLoopFuture<[String: [String: String]]> {
+    func search(req: Request) -> EventLoopFuture<View> {
         let param = try? req.query.decode(Parameters.self)
-        let result = showClass.startShowing(key: param?.key, language: param?.language).mapError {
-            $0 as Error
+
+        var language = param?.language
+        var key = param?.key
+
+        if language == "" {
+            language = nil
+        }
+        if key == "" {
+            key = nil
         }
 
-        let allWords = result
+        let result = showClass.startShowing(key: key, language: language)
 
-        return req.eventLoop.future(result: result).map { value in
-            value.reduce(into: [:]) { result, key in
-                result[key.key] = getWords(result: allWords, key: key.key)
-            }
+        switch result {
+        case .success(let values):
+            return req.view.render("result", ["result": values.map { value in
+                "\(value.languageKey) \(value.key) \(value.value)"
+            }])
+        case .failure(let error):
+            return req.view.render("result", ["result": error.encodable])
         }
     }
 
@@ -42,6 +59,22 @@ struct ShowController: RouteCollection {
             return words
         case .failure:
             return [:]
+        }
+    }
+}
+
+extension ShowController {
+    struct Response: Content {
+        let results: [SearchResults]
+
+        struct SearchResults: Codable {
+            let key: String
+            let elements: [Element]
+
+            struct Element: Codable {
+                let language: String
+                let value: String
+            }
         }
     }
 }
